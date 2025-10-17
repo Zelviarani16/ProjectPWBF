@@ -1,0 +1,356 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Header */
+.site-header {
+    background: linear-gradient(90deg, #2b5876, #4e4376);
+    color: #fff;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.brand-text h1 {
+    font-size: 1.5rem;
+}
+
+.tagline {
+    font-size: 0.9rem;
+    color: #e0e0e0;
+}
+
+main {
+    flex: 1;
+}
+
+main .hero-figure {
+    padding-top: 10px;
+}
+
+/* Navigation */
+.site-header {
+  position: sticky; /* atau fixed */
+  top: 0;
+  z-index: 1000; /* biar ga ketimpa elemen lain */
+}
+
+.site-header {
+  background: linear-gradient(90deg, #2b5876, #4e4376);
+}
+
+
+.top-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+}
+
+.top-nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.top-nav a:hover {
+    color: #ffcc70;
+    text-shadow: 0 0 5px rgba(255,204,112,0.8);
+}
+
+/* Body */
+body {
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+}
+
+
+/* Section styling */
+.section {
+    background-color: #fff;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    max-width: 1000px;
+}
+
+/* Heading */
+h2 {
+    color: #4e4376;
+    margin-bottom: 1rem;
+}
+
+.struktur img{
+  width: 100%;
+  height: 800px;
+  object-fit: contain; 
+  background-color: white; 
+  padding: 10px; 
+}
+
+/* Lists */
+ul, ol {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+/* Image */
+main section figure img {
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 per baris */
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.gallery h3 {
+  grid-column: span 2;
+  margin-bottom: 1rem;
+  color: #4e4376;
+}
+
+.gallery-item {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 300px; /* tinggi kotak sama semua */
+}
+
+.gallery-item:hover {
+  transform: scale(1.03);
+}
+
+.gallery h3 {
+    padding-top: 40px;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 220px; /* tinggi gambar sama semua */
+  object-fit: cover;
+}
+
+.gallery-item figcaption {
+  flex-shrink: 0;
+  height: 80px; /* tinggi caption sama semua */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.5rem;
+  background: #f8f8f8;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+}
+
+section .quotegambar {
+    padding-top: 18px;
+    text-align: center;
+}
+
+/* Tabel */
+.layanan-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.layanan-table th {
+  background-color: #4a3c7a;
+  color: white;
+  padding: 10px;
+  text-align: left;
+}
+
+.layanan-table td {
+  padding: 10px;
+  vertical-align: top;
+  border-bottom: 1px solid #ddd;
+}
+
+.layanan-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.layanan-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+/* Footer */
+footer .links a{
+    padding: 8px;
+}
+
+footer {
+  background-color: #4e4376; 
+  color: #ffffff; 
+  text-align: center;
+  padding: 2rem;
+  margin-top: 3rem;
+}
+
+footer .social-media a,
+footer .links a,
+footer .credit a {
+  color: #ffffff; 
+}
+
+footer .social-media a:hover,
+footer .links a:hover {
+  color: #ffcc70; 
+}
+
+footer .credit a {
+  font-weight: 700;
+  text-decoration: none; /* hilangkan garis bawah */
+}
+
+footer .credit a{
+      color: #ffcc70; 
+}
+
+
+/* ===== Data Master Page ===== */
+/* Main page */
+.datamaster-main {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px;
+  background: #f9f9fb; /* soft background */
+  font-family: 'Poppins', sans-serif;
+}
+
+.datamaster-main .container {
+  max-width: 900px;
+  width: 100%;
+  text-align: center;
+}
+
+.datamaster-main h2 {
+  font-size: 28px;
+  color: #5a4d7a; /* soft purple */
+  margin-bottom: 40px;
+}
+
+/* Grid menu */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 card sejajar */
+  gap: 25px;
+  list-style: none;
+  padding: 0;
+}
+
+/* Responsif */
+@media (max-width: 992px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 card per baris */
+  }
+}
+
+@media (max-width: 576px) {
+  .menu-grid {
+    grid-template-columns: 1fr; /* 1 card per baris */
+  }
+}
+
+/* Card menu */
+.menu-card {
+  background: #e0dff5; /* soft pastel */
+  border-radius: 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  height: 180px; /* lebih panjang */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-card a {
+  display: block;
+  color: #4a3f70; /* soft text */
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.3s ease, color 0.3s ease;
+  text-align: center;
+}
+
+.menu-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+  background: #d6cfff; /* sedikit lebih terang saat hover */
+}
+
+.menu-card:hover a {
+  transform: scale(1.05);
+  color: #3f2f66;
+}
+
+/* Login page card */
+#login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* sesuaikan header/footer */
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+#login .login-form {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#login .login-form input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+#login .login-form button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4e4376; /* match theme */
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+#login .login-form button:hover {
+    background-color: #2b5876;
+}
+
