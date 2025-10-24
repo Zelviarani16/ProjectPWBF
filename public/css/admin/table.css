@@ -1,0 +1,104 @@
+/* ==================================================
+   TABLE + ACTION BUTTONS STYLING
+   ================================================== */
+
+.table-custom {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table-custom thead {
+    background: #f8fafc;
+}
+
+.table-custom thead th {
+    padding: 16px 20px;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+    border-bottom: 2px solid #e5e7eb;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.table-custom tbody td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+    color: #334155;
+    vertical-align: middle;
+}
+
+.table-custom tbody tr:hover td {
+    background: #f9fafb;
+}
+
+.table-custom tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* ===== BADGE ID ===== */
+.badge-id-custom {
+    display: inline-block;
+    background: #eff6ff;
+    color: #1e40af;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.action-buttons-custom {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-warning-custom {
+    background: #f59e0b;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+.btn-warning-custom:hover {
+    background: #d97706;
+    transform: translateY(-1px);
+}
+
+.btn-danger-custom {
+    background: #ef4444;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: 0.2s ease;
+}
+
+.btn-danger-custom:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+/* === Uniform Table Alignment === */
+.table-custom th,
+.table-custom td {
+    text-align: left;
+}
+
+.table-custom th:first-child,
+.table-custom td:first-child {
+    padding-left: 24px; /* biar gak nempel ke tepi */
+}
+
+.table-custom th:last-child,
+.table-custom td:last-child {
+    text-align: center; /* kolom aksi di tengah */
+}

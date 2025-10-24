@@ -1,0 +1,42 @@
+/* ==================================================
+   STATS CARD (TOTAL & RECENT DATA)
+   ================================================== */
+
+.stats-card-custom {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s;
+    border-left: 4px solid #3b82f6;
+}
+
+.stats-card-custom:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.stats-card-custom.recent {
+    border-left-color: #10b981;
+}
+
+.stats-icon-custom {
+    width: 56px;
+    height: 56px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.stats-icon-custom.purple {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.stats-icon-custom.green {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}

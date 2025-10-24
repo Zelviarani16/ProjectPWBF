@@ -1,0 +1,114 @@
+/* ==================================================
+   GLOBAL STYLE UNTUK HALAMAN ADMIN PANEL
+   ================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f8fafc;
+    color: #334155;
+    overflow-x: hidden;
+}
+
+/* ===== PAGE HEADER ===== */
+.page-header-custom {
+    margin-bottom: 28px;
+}
+
+.page-title-custom {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 6px;
+}
+
+.page-subtitle-custom {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0;
+}
+
+/* ===== CARD ===== */
+.card-custom {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    background: white;
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+.card-header-custom {
+    background: #fff;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title-custom {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1a202c;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-title-custom i {
+    color: #3b82f6;
+}
+
+/* ===== BUTTONS ===== */
+.btn-primary-custom {
+    background: #3b82f6;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary-custom:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state-custom {
+    text-align: center;
+    padding: 48px 20px;
+    color: #64748b;
+}
+
+.empty-state-custom i {
+    font-size: 64px;
+    color: #cbd5e1;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.empty-state-custom a {
+    margin-top: 1rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .page-title-custom {
+        font-size: 24px;
+    }
+
+    .card-header-custom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
