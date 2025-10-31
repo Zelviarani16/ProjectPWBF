@@ -108,7 +108,14 @@
 
 <body>
     <!-- Sidebar -->
-    @include('layouts.sidebar-admin');
+    @include('layouts.sidebar-resepsionis')
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+        <div class="content-area">
+            @yield('content')
+        </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

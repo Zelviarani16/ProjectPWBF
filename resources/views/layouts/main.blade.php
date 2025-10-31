@@ -1,3 +1,5 @@
+<!-- INI YG HALAMAN AWAL RSHP -->
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -17,12 +19,27 @@
 
     <nav class="top-nav">
       <ul>
-        <li><a href="{{ route('home') }}">Home</a></li>
+        <li><a href="{{ route('landing') }}">Home</a></li>
         <li><a href="{{ route('struktur') }}">Struktur Organisasi</a></li>
         <li><a href="{{ route('layanan') }}">Layanan Umum</a></li>
         <li><a href="{{ route('kontak') }}">Kontak</a></li>
-        <li><a href="{{ route('login') }}">Login</a></li>
-      </ul>
+
+      @guest
+      <li><a href="{{ route('login') }}">Login</a></li>
+    @endguest
+
+    @auth
+      <li>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+          @csrf
+        </form>
+        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+          Logout {{ Auth::user()->name }}
+        </a>
+      </li>
+    @endauth
+  </ul>
+
     </nav>
   </header>
 
@@ -34,7 +51,7 @@
   <!-- Footer -->
   <footer>
     <div class="links">
-      <a href="{{ route('home') }}">Home</a>
+      <a href="landing">Home</a>
       <a href="{{ route('struktur') }}">Struktur Organisasi</a>
       <a href="{{ route('layanan') }}">Layanan Umum</a>
       <a href="{{ route('kontak') }}">Kontak</a>

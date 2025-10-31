@@ -1,61 +1,80 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\PetController;
+
+// ===== Controllers =====
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Site\SiteController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\KategoriController;
-use App\Http\Controllers\Admin\RasHewanController;
 use App\Http\Controllers\Admin\JenisHewanController;
+use App\Http\Controllers\Admin\RasHewanController;
+use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\KategoriKlinisController;
 use App\Http\Controllers\Admin\KodeTindakanTerapiController;
+use App\Http\Controllers\Admin\PetController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PemilikController;
+use App\Http\Controllers\Resepsionis\DashboardResepsionisController;
+use App\Http\Controllers\Resepsionis\TemuDokterController;
 
-// ========== SITE (Public Area) ==========
-// get('home') dia akan mendeteksi ketika kita mengetikkan ini di web, diarahkan ke site controller dan cari method home, kalau name digunakan utk 
-Route::get('/', [SiteController::class, 'home'])->name('home');
-Route::get('home', [SiteController::class, 'home'])->name('home');
+// ====================== SITE (Public Area) ======================
+Route::get('/', [SiteController::class, 'home'])->name('landing');
 Route::get('layanan', [SiteController::class, 'layanan'])->name('layanan');
 Route::get('kontak', [SiteController::class, 'kontak'])->name('kontak');
 Route::get('struktur', [SiteController::class, 'struktur'])->name('struktur');
 
-// ========== AUTH ==========
-Route::get('login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('login', [AuthController::class, 'processLogin'])->name('login.process');
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+// Logout
+Route::post('/logout', [LoginController::class, 'Logout'])->name('logout');
 
-// ========== ADMIN AREA ==========
-Route::prefix('admin')->name('admin.')->group(function () {
-    // Dashboard
-    // ini tdk ikut prefix karena pakai /
-    Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
-    
-    // CRUD Jenis Hewan
-    Route::resource('jenis-hewan', JenisHewanController::class);
-
-    // Ras Hewan
-    Route::resource('ras-hewan', RasHewanController::class);
-
-    // Kategorii
-    Route::resource('kategori', KategoriController::class);
-
-    // Kategori Klinis
-    Route::resource('kategori-klinis', KategoriKlinisController::class);
-
-    // Kode tindakan terapi
-    Route::resource('kode-tindakan-terapi', KodeTindakanTerapiController::class);
-
-    
-    // Pet
-    Route::resource('pet', PetController::class);
-
-    // User
-    Route::resource('user', UserController::class);
-
-    // Role
-    Route::resource('role', RoleController::class);
+// Authentication routes (login/register)
+Auth::routes();
 
 
-});
+// ====================== ADMIN AREA ======================
+// Hanya admin & resepsionis yang boleh
+// Route::middleware(['auth', 'checkRole:1,4'])->group(function () {
+//     Route::get('/pet', [PetController::class, 'index']);
+// });
+
+
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'isAdministrator'])
+    ->group(function () {
+        Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+
+        Route::resource('jenis-hewan', JenisHewanController::class);
+        Route::resource('pemilik', PemilikController::class);
+        Route::resource('ras-hewan', RasHewanController::class);
+        Route::resource('kategori', KategoriController::class);
+        Route::resource('kategori-klinis', KategoriKlinisController::class);
+        Route::resource('kode-tindakan-terapi', KodeTindakanTerapiController::class);
+        Route::resource('pet', PetController::class);
+        Route::resource('user', UserController::class);
+        Route::resource('role', RoleController::class);
+    });
+
+
+// ====================== RESEPSIONIS AREA ======================
+Route::prefix('resepsionis')
+    ->name('resepsionis.')
+    ->middleware(['auth', 'isResepsionis'])
+    ->group(function () {
+        Route::get('/dashboard', [DashboardResepsionisController::class, 'index'])->name('dashboard');
+        
+        Route::resource('temu-dokter', TemuDokterController::class);
+
+        Route::resource('pet', App\Http\Controllers\Admin\PetController::class)->only(['index', 'show']);
+
+    });
+
+
+Route::prefix('pemilik')
+    ->name('pemilik.')
+    ->middleware(['auth', 'isPemilik'])
+    ->group(function () {
+        Route::get('/dashboard', [PemilikController::class, 'index'])->name('dashboard');
+    });
