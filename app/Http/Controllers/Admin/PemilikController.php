@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Pemilik;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PemilikController extends Controller
 {
@@ -21,8 +22,17 @@ class PemilikController extends Controller
 
     public function store(Request $request)
     {
-        Pemilik::create($request->all());
-        return redirect()->route('admin.pemilik.index')->with('success', 'Data pemilik berhasil ditambahkan.');
+        $validated = $this->validatePemilik($request);
+
+        Pemilik::create([
+            'nama_pemilik' => $this->formatNama($validated['nama_pemilik']),
+            'alamat' => trim($validated['alamat']),
+            'no_wa' => $validated['no_wa'],
+        ]);
+
+        return redirect()
+            ->route('admin.pemilik.index')
+            ->with('success', 'Data pemilik berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -34,13 +44,47 @@ class PemilikController extends Controller
     public function update(Request $request, $id)
     {
         $pemilik = Pemilik::findOrFail($id);
-        $pemilik->update($request->all());
-        return redirect()->route('admin.pemilik.index')->with('success', 'Data pemilik berhasil diperbarui.');
+        $validated = $this->validatePemilik($request, $id);
+
+        $pemilik->update([
+            'nama_pemilik' => $this->formatNama($validated['nama_pemilik']),
+            'alamat' => trim($validated['alamat']),
+            'no_wa' => $validated['no_wa'],
+        ]);
+
+        return redirect()
+            ->route('admin.pemilik.index')
+            ->with('success', 'Data pemilik berhasil diperbarui.');
     }
 
     public function destroy($id)
     {
         Pemilik::destroy($id);
-        return redirect()->route('admin.pemilik.index')->with('success', 'Data pemilik berhasil dihapus.');
+        return redirect()
+            ->route('admin.pemilik.index')
+            ->with('success', 'Data pemilik berhasil dihapus.');
+    }
+
+    // ======================
+    // 💡 VALIDATION & HELPER
+    // ======================
+
+    private function validatePemilik(Request $request, $id = null)
+    {
+        return $request->validate([
+            'nama_pemilik' => ['required', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:500'],
+            'no_wa' => [
+                'required',
+                'string',
+                'max:20',
+                Rule::unique('pemilik', 'no_wa')->ignore($id, 'idpemilik')
+            ],
+        ]);
+    }
+
+    private function formatNama($nama)
+    {
+        return ucwords(strtolower(trim($nama)));
     }
 }

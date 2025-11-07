@@ -20,6 +20,10 @@ class User extends Authenticatable
         'password'
     ];
 
+    protected $hidden = [
+        'password',
+    ];
+
     public function pemilik()
     {
         return $this->hasOne(Pemilik::class, 'iduser', 'iduser');

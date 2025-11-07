@@ -12,12 +12,13 @@
 <div class="card-custom">
     <div class="card-header-custom">
         <h5 class="card-title-custom">
-            <i class="bi bi-people"></i> Data User
+            <i class="bi bi-shield-lock"></i> Data User
         </h5>
-        <a href="#" class="btn-primary-custom">
+        <a href="{{ route('admin.user.create') }}" class="btn-primary-custom">
             <i class="bi bi-plus-circle"></i> Tambah User
         </a>
     </div>
+
 
     <div class="card-body">
         <div class="table-responsive">
