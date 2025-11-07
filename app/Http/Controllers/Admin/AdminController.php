@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('layouts.dashboard-admin');
+        return view('admin.dashboard-admin');
 
 
         // $totalJenisHewan = JenisHewan::count();

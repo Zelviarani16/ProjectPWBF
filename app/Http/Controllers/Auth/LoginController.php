@@ -77,6 +77,7 @@ class LoginController extends Controller
             'user_name' => $user->nama,
             'user_email' => $user->email,
             'user_role_id' => $roleId, // 🔹 Tambahan untuk home.blade.php
+            // Simpan role id ke session, maka nilainya bisa diakses di semua halaman setelah login, bahkan setelah reload
             'user_role' => $roleId,
             'user_role_name' => $namaRole->nama_role ?? 'User',
             'user_status' => $user->roleUser[0]->status ?? 'active'
@@ -84,19 +85,20 @@ class LoginController extends Controller
 
         // Redirect sesuai role
         switch ($roleId) {
-            case '1':
+            case 1:
                 return redirect()->route('admin.dashboard')->with('success', 'Login berhasil!');
-            case '2':
+            case 2:
                 return redirect()->route('dokter.dashboard')->with('success', 'Login berhasil!');
-            case '3':
+            case 3:
                 return redirect()->route('perawat.dashboard')->with('success', 'Login berhasil!');
-            case '4':
+            case 4:
                 return redirect()->route('resepsionis.dashboard')->with('success', 'Login berhasil!');
-            case '5':
+            case 5:
                 return redirect()->route('pemilik.dashboard')->with('success', 'Login berhasil!');
-            // default:
-            //     return redirect($this->redirectTo)->with('success', 'Login berhasil!');
+            default:
+                return redirect('/')->with('error', 'Role tidak valid!');
         }
+
     }
 
     public function logout(Request $request)

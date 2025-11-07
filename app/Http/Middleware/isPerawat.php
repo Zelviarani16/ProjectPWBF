@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class isAdministrator
+class isPerawat
 {
     /**
      * Handle an incoming request.
@@ -16,21 +16,19 @@ class isAdministrator
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Jika user tidak terautentifikasi. redirect ke login
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Silahkan login terlebih dahulu.');
+            return redirect()->route('login');
         }
-
 
         // Ambil role dari session atau dari relasi user
-        $userRole = (int) session('user_role');
+        $userRole = session('user_role');
 
-        if ($userRole === 1) {
-            return $next($request);
-
-        } else {
-            return abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
+        if ($userRole === 3) {
+             return $next($request);
+        }else {
+            return back()->with('error', 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini');
         }
-
+        
+       
     }
 }

@@ -8,7 +8,7 @@
         <h3>Tambah Jenis Hewan</h3>
     </div>
     <div class="card-body">
-        <form action="{{ route('jenis-hewan.store') }}" method="POST">
+        <form action="{{ route('admin.jenis-hewan.store') }}" method="POST">
             @csrf
             
             <div class="mb-3">
@@ -26,7 +26,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Simpan</button>
-            <a href="{{ route('jenis-hewan.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('admin.jenis-hewan.index') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
 </div>

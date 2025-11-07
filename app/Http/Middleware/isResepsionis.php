@@ -5,32 +5,32 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class isResepsionis
 {
     /**
      * Handle an incoming request.
-     * Bisa menerima parameter role, misalnya: checkRole:1,4
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, ...$roles)
+    public function handle(Request $request, Closure $next): Response
     {
+        // Jika user tidak terautentifikasi. redirect ke login
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
-        // ambil role user dari relasi user atau session
-        $userRole = session('user_role') ?? Auth::user()->role ?? null;
 
-        // kalau route tidak memerlukan role spesifik, cukup pastikan user login
-        if (empty($roles)) {
+        // Ambil role dari session atau dari relasi user
+        $userRole = (int) session('user_role');
+
+        if ($userRole === 4) {
             return $next($request);
+
+        } else {
+            return abort('error', 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
 
-        // kalau userRole-nya ada dalam daftar role yang diizinkan
-        if (in_array($userRole, $roles)) {
-            return $next($request);
-        }
-
-        abort(403, 'Akses tidak diizinkan.');
     }
 }

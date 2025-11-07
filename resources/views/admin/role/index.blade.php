@@ -14,7 +14,7 @@
         <h5 class="card-title-custom">
             <i class="bi bi-shield-lock"></i> Data Role
         </h5>
-        <a href="#" class="btn-primary-custom">
+        <a href="{{ route('admin.role.create') }}" class="btn-primary-custom">
             <i class="bi bi-plus-circle"></i> Tambah Role
         </a>
     </div>
@@ -36,11 +36,16 @@
                             <td>{{ $role->nama_role }}</td>
                             <td>
                                 <div class="action-buttons-custom">
-                                    <a href="#" class="btn-warning-custom"><i class="bi bi-pencil"></i></a>
-                                    <form action="#" method="POST" style="display:inline;">
+                                    <!-- Tombol Edit -->
+                                    <a href="{{ route('admin.role.edit', $role->idrole) }}" class="btn-warning-custom">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+
+                                    <!-- Tombol Hapus -->
+                                    <form action="{{ route('admin.role.destroy', $role->idrole) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn-danger-custom">
+                                        <button type="submit" class="btn-danger-custom" onclick="return confirm('Yakin ingin menghapus role ini?')">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
@@ -53,7 +58,7 @@
                                 <div class="empty-state-custom">
                                     <i class="bi bi-inbox"></i>
                                     <p>Belum ada data role</p>
-                                    <a href="#" class="btn-primary-custom">
+                                    <a href="{{ route('admin.role.create') }}" class="btn-primary-custom">
                                         <i class="bi bi-plus-circle"></i> Tambah Data
                                     </a>
                                 </div>

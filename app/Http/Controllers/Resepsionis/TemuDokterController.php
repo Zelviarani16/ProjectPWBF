@@ -10,82 +10,74 @@ use Illuminate\Http\Request;
 
 class TemuDokterController extends Controller
 {
-    // Menampilkan semua reservasi
+
+    // Tampil semua reservasi
     public function index()
     {
-        $reservasiList = TemuDokter::with(['pet.pemilik.user', 'dokter.user'])
-            ->orderBy('no_urut', 'asc')
-            ->get();
+        $reservasi = TemuDokter::with(['pet.pemilik.user', 'roleUser.user'])->get();
 
-        return view('resepsionis.temu-dokter.index', compact('reservasiList'));
+        return view('resepsionis.temu-dokter.index', compact('reservasi'));
     }
 
-    // Menampilkan form tambah reservasi
+    // Tampil form buat reservasi baru
     public function create()
     {
-        $pemilikList = User::whereHas('pemilik', fn($q) => $q)->get(); // Hanya user yang punya pemilik
         $pets = Pet::all();
-        $dokters = User::whereHas('roles', fn($q) => $q->where('nama_role', 'dokter'))->get();
-
-        return view('resepsionis.temu-dokter.create', compact('pemilikList', 'pets', 'dokters'));
+        $dokters = User::where('role', 2)->get(); // role 2 = dokter
+        return view('resepsionis.temu-dokter.create', compact('pets', 'dokters'));
     }
 
     // Simpan reservasi baru
     public function store(Request $request)
     {
-        $request->validate([
-            'idpet' => 'required|exists:pets,idpet',
-            'iduser_dokter' => 'required|exists:users,iduser',
-            'status' => 'required|string|in:P,C,S', // contoh: P=Pending, C=Confirmed, S=Selesai
+        $validated = $request->validate([
+            'no_urut' => 'required|integer',
+            'waktu_daftar' => 'required|date',
+            'status' => 'required|in:A,B,C,D', // contoh status
+            'idpet' => 'required|exists:pet,idpet',
+            'idrole_user' => 'required|exists:users,id',
         ]);
 
-        $temu = new TemuDokter();
-        $temu->idpet = $request->idpet;
-        $temu->idrole_user = $temu->resolveRoleUserId($request->iduser_dokter);
-        $temu->no_urut = TemuDokter::max('no_urut') + 1; // auto nomor urut
-        $temu->status = $request->status;
-        $temu->save();
+        TemuDokter::create($validated);
 
-        return redirect()->route('resepsionis.temu-dokter.index')
-            ->with('success', 'Reservasi Temu Dokter berhasil ditambahkan');
+        return redirect()->route('resepsionis.temu-dokter.index')->with('success', 'Reservasi berhasil ditambahkan.');
     }
 
-    // Menampilkan form edit reservasi
-    public function edit($id)
+    // Tampil detail reservasi
+    public function show(TemuDokter $temu_dokter)
     {
-        $temu = TemuDokter::findOrFail($id);
-        $pets = Pet::all();
-        $dokters = User::whereHas('roles', fn($q) => $q->where('nama_role', 'dokter'))->get();
+        return view('resepsionis.temu_dokter.show', compact('temu_dokter'));
+    }
 
-        return view('resepsionis.temu-dokter.edit', compact('temu', 'pets', 'dokters'));
+    // Tampil form edit reservasi
+    public function edit(TemuDokter $temu_dokter)
+    {
+        $pets = Pet::all();
+        $dokters = User::where('role', 2)->get();
+        return view('resepsionis.temu_dokter.edit', compact('temu_dokter', 'pets', 'dokters'));
     }
 
     // Update reservasi
-    public function update(Request $request, $id)
+    public function update(Request $request, TemuDokter $temu_dokter)
     {
-        $request->validate([
-            'idpet' => 'required|exists:pets,idpet',
-            'iduser_dokter' => 'required|exists:users,iduser',
-            'status' => 'required|string|in:P,C,S',
+        $validated = $request->validate([
+            'no_urut' => 'required|integer',
+            'waktu_daftar' => 'required|date',
+            'status' => 'required|in:A,B,C,D',
+            'idpet' => 'required|exists:pet,idpet',
+            'idrole_user' => 'required|exists:users,id',
         ]);
 
-        $temu = TemuDokter::findOrFail($id);
-        $temu->idpet = $request->idpet;
-        $temu->idrole_user = $temu->resolveRoleUserId($request->iduser_dokter);
-        $temu->status = $request->status;
-        $temu->save();
+        $temu_dokter->update($validated);
 
-        return redirect()->route('resepsionis.temu-dokter.index')
-            ->with('success', 'Reservasi Temu Dokter berhasil diupdate');
+        return redirect()->route('resepsionis.temu-dokter.index')->with('success', 'Reservasi berhasil diperbarui.');
     }
 
     // Hapus reservasi
-    public function destroy($id)
+    public function destroy(TemuDokter $temu_dokter)
     {
-        $temu = TemuDokter::findOrFail($id);
-        $temu->delete();
+        $temu_dokter->delete();
 
-        return redirect()->route('resepsionis.temu-dokter.index')
-            ->with('success', 'Reservasi Temu Dokter berhasil dihapus');
+        return redirect()->route('resepsionis.temu-dokter.index')->with('success', 'Reservasi berhasil dihapus.');
     }
 }

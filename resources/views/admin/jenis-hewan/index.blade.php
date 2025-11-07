@@ -1,3 +1,4 @@
+
 @extends('layouts.admin')
 
 @section('title', 'Daftar Jenis Hewan')

@@ -16,13 +16,10 @@
             <i class="bi bi-person-circle"></i>
         </div>
         <div class="user-info">
-        <div class="user-info">
             <h5>{{ Auth::user()->name }}</h5>
-            <span class="user-role">{{ Auth::user()->role ?? 'Resepsionis' }}</span>
+            <span class="user-role">{{ Auth::user()->role ?? 'Administrator' }}</span>
             <span class="user-email">{{ Auth::user()->email }}</span>
         </div>
-    </div>
-
     </div>
 
     <!-- Navigation Menu -->
@@ -41,20 +38,17 @@
             <div class="menu-title">
                 <i class="bi bi-database"></i> Menu
             </div>
-            <a href="{{ route('resepsionis.pet.index') }}" class="menu-item {{ request()->routeIs('admin.pet.*') ? 'active' : '' }}">
+            <a href="{{ route('resepsionis.pet.index') }}" class="menu-item {{ request()->routeIs('resepsionis.pet.*') ? 'active' : '' }}">
                 <i class="bi bi-heart"></i>
                 <span>Pet</span>
             </a>
-            <a href="{{ route('admin.pemilik.index') }}" class="menu-item {{ request()->routeIs('admin.user.*') ? 'active' : '' }}">
-                <i class="bi bi-people"></i>
+            <a href="{{ route('resepsionis.pemilik.index') }}" class="menu-item {{ request()->routeIs('admin.pemilik.*') ? 'active' : '' }}">
+                <i class="bi bi-shield-check"></i>
                 <span>Pemilik</span>
             </a>
-            <a href="{{ route('resepsionis.temu-dokter.index') }}" class="menu-item {{ request()->routeIs('admin.role.*') ? 'active' : '' }}">
-                <i class="bi bi-shield-check"></i>
-                <span>Role</span>
-            </a>
-           
-            
+            <a href="{{ route('resepsionis.temu-dokter.index') }}" class="menu-item {{ request()->routeIs('resepsionis.temu-dokter.*') ? 'active' : '' }}">
+                <i class="bi bi-people"></i>
+            <span>Temu Dokter</span>
         </div>
 
         <!-- Logout -->
@@ -67,13 +61,6 @@
             <span>Logout</span>
          </a>
         </div>
-    </div>
-</div>
-
-<!-- Content -->
-<div class="main-wrapper">
-    <div class="content-area">
-        @yield('content')
     </div>
 </div>
 

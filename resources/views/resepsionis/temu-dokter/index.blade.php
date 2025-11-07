@@ -32,13 +32,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($reservasiList as $r)
+                    @forelse($reservasi as $r)
                         <tr>
                             <td>{{ $r->no_urut }}</td>
                             <td>{{ \Carbon\Carbon::parse($r->waktu_daftar)->format('d M Y H:i') }}</td>
                             <td>{{ $r->pet->pemilik->user->nama ?? '-' }}</td>
                             <td>{{ $r->pet->nama ?? '-' }}</td>
-                            <td>{{ $r->dokter->nama ?? '-' }}</td>
+                            <td>{{ $r->roleUser->user->nama ?? '-' }}</td>
                             <td>{{ $r->status }}</td>
                             <td>
                                 <div class="action-buttons-custom">

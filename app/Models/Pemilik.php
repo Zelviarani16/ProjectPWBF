@@ -13,7 +13,11 @@ class Pemilik extends Model
     protected $primaryKey = 'idpemilik';
     public $timestamps = false;
 
-    protected $fillable = ['no_wa', 'alamat', 'iduser'];
+    protected $fillable = [
+        'no_wa', 
+        'alamat', 
+        'iduser'
+    ];
 
     // Relasi ke tabel user (kolomnya iduser, bukan id)
     public function user()

@@ -5,7 +5,7 @@
             <i class="bi bi-hospital-fill"></i>
             <div class="logo-text">
                 <h4>RSHP Panel</h4>
-                <span>Admin Dashboard</span>
+                <span>Perawat Dashboard</span>
             </div>
         </div>
     </div>
@@ -17,7 +17,7 @@
         </div>
         <div class="user-info">
             <h5>{{ Auth::user()->name }}</h5>
-            <span class="user-role">{{ Auth::user()->role ?? 'Administrator' }}</span>
+            <span class="user-role">{{ Auth::user()->role ?? 'Perawat' }}</span>
             <span class="user-email">{{ Auth::user()->email }}</span>
         </div>
     </div>

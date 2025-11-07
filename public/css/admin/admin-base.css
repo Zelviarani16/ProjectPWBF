@@ -1,7 +1,11 @@
 /* ==================================================
    GLOBAL STYLE UNTUK HALAMAN ADMIN PANEL
    ================================================== */
+
+
+/* INI FILE PUBLIC/CSS/ADMIN/ADMIN-BASE */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 
 body {
     font-family: 'Inter', sans-serif;
@@ -112,3 +116,85 @@ body {
         gap: 10px;
     }
 }
+
+/* ===== FORM ELEMENTS ===== */
+.form-label-custom {
+    display: block;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+.form-control-custom {
+    display: block;
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #334155;
+    background-color: #fff;
+    transition: all 0.2s ease;
+}
+
+.form-control-custom:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+    outline: none;
+}
+
+/* ===== BUTTONS (TAMBAHAN) ===== */
+.btn-success-custom {
+    background: #16a34a;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-success-custom:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(22, 163, 74, 0.25);
+}
+
+.btn-secondary-custom {
+    background: #6b7280;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-secondary-custom:hover {
+    background: #4b5563;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(75, 85, 99, 0.25);
+}
+
+/* ===== FORM GROUP SPACING ===== */
+.form-group {
+    margin-bottom: 20px;
+}
+
+
+body {
+  background-color: pink !important;
+}
+
+

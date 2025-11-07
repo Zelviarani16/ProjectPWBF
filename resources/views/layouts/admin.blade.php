@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{ asset('css/admin/admin-base.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/table.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/stats.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/admin-forms.css') }}"> <!-- BARU -->
 
     @stack('styles')
 
@@ -107,8 +108,26 @@
 </head>
 
 <body>
+
     <!-- Sidebar -->
-    @include('layouts.sidebar-admin');
+    @if(session('user_role') == 1)
+        @include('layouts.sidebar-admin')
+    @elseif(session('user_role') == 2)
+        @include('layouts.sidebar-dokter')
+    @elseif(session('user_role') == 3)
+        @include('layouts.sidebar-perawat')
+    @elseif(session('user_role') == 4)
+        @include('layouts.sidebar-resepsionis')
+    @elseif(session('user_role') == 5)
+        @include('layouts.sidebar-pemilik')
+    @endif
+
+
+    <div class="main-wrapper">
+        <div class="content-area">
+            @yield('content')
+        </div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

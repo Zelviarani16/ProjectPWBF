@@ -1,5 +1,3 @@
-<!-- INI YG DIOPAKAI SAAT SETELAH LOGIN -->
-
 @extends('layouts.admin')
 
 @section('content')
@@ -21,7 +19,7 @@
             {{ Auth::user()->name }} 👋
         </h1>
         <p>Selamat mengelola data sistem RSHP Universitas Airlangga</p>
-        <p class="greeting-subtitle">Mari kelola data master dengan efisien hari ini!</p>
+        <p class="greeting-subtitle">Mari kelola data pasien dengan efisien hari ini!</p>
     </div>
 </div>
 

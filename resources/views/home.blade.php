@@ -1,3 +1,5 @@
+<!-- DARI LARAVEL UI  -->
+
 @extends('layouts.app')
 
 @section('content')

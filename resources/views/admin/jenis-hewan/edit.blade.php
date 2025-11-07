@@ -8,7 +8,7 @@
         <h3>Edit Jenis Hewan</h3>
     </div>
     <div class="card-body">
-        <form action="{{ route('jenis-hewan.update', $jenisHewan->idjenis_hewan) }}" method="POST">
+        <form action="{{ route('admin.jenis-hewan.update', $jenisHewan->idjenis_hewan) }}" method="POST">
             @csrf
             @method('PUT')
             
@@ -27,7 +27,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Update</button>
-            <a href="{{ route('jenis-hewan.index') }}" class="btn btn-secondary">Kembali</a>
+            <a href="{{ route('admin.jenis-hewan.index') }}" class="btn btn-secondary">Kembali</a>
         </form>
     </div>
 </div>

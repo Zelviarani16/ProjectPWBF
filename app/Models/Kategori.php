@@ -6,8 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Kategori extends Model
 {
-    protected $table = 'Kategori';
+    protected $table = 'kategori';
     protected $primaryKey = 'idkategori';
-    protected $fillable = ['nama_kategori'];
-    public $timestamps = false;
+    public $incrementing = false; // karena id tidak auto-increment
+    public $timestamps = false;   
+    protected $fillable = ['idkategori', 'nama_kategori'];
 }
