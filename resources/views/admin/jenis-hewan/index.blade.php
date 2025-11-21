@@ -33,6 +33,8 @@
                     </thead>
                     <tbody>
                         @forelse($jenisHewan as $jenis)
+                        <!-- artinya, loop pertama $jenis berisi data baris pertama (misal ID=1, Sapi) . -->
+                        <!-- Jadi blade sudah memegang ID per-baris melalui variabel $jenis -->
                         <tr>
                             <td>
                                 <span class="badge-id-custom">{{ $jenis->idjenis_hewan }}</span>

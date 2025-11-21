@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Pemilik;
 use App\Models\RasHewan;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Pet extends Model
 {
@@ -36,4 +37,5 @@ class Pet extends Model
         return $this->belongsTo(User::class, 'iduser', 'iduser');
     }
 }
+
 

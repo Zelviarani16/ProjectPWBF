@@ -2,39 +2,55 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Pet;
 use App\Models\Pemilik;
 use App\Models\RasHewan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class PetController extends Controller
 {
     public function index()
     {
-        $pets = Pet::with(['pemilik', 'rasHewan'])->get();
+        $pets = DB::table('pet as p')
+            ->join('pemilik as pm', 'p.idpemilik', '=', 'pm.idpemilik')
+            ->join('user as u', 'pm.iduser', '=', 'u.iduser')
+            ->join('ras_hewan as rh', 'p.idras_hewan', '=', 'rh.idras_hewan')
+            ->select(
+                'p.*',
+                'u.nama as nama_pemilik',
+                'rh.nama_ras'
+            )
+            ->get();
+
         return view('admin.pet.index', compact('pets'));
     }
 
     public function create()
     {
-        $pemilik = Pemilik::with('user')->get();
+        $pemilik = DB::table('pemilik as pm')
+            ->leftJoin('user as u', 'pm.iduser', '=', 'u.iduser')
+            ->select('pm.*', 'u.nama as nama_user')
+            ->get();
+
         $rasHewan = RasHewan::all();
+
         return view('admin.pet.create', compact('pemilik', 'rasHewan'));
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:100',
-            'tanggal_lahir' => 'required|date',
-            'warna_tanda' => 'nullable|string|max:45',
-            'jenis_kelamin' => 'required|in:L,P',
-            'idpemilik' => 'required|exists:pemilik,idpemilik',
-            'idras_hewan' => 'required|exists:ras_hewan,idras_hewan',
-        ]);
+        $validated = $this->validatePet($request);
 
-        Pet::create($validated);
+        DB::table('pet')->insert([
+            'nama' => $this->formatNama($validated['nama']),
+            'tanggal_lahir' => $validated['tanggal_lahir'],
+            'warna_tanda'   => $validated['warna_tanda'],
+            'jenis_kelamin' => $validated['jenis_kelamin'],
+            'idpemilik'     => $validated['idpemilik'],
+            'idras_hewan'   => $validated['idras_hewan'],
+        ]);
 
         return redirect()->route('admin.pet.index')
                          ->with('success', 'Data pet berhasil ditambahkan.');
@@ -45,23 +61,23 @@ class PetController extends Controller
         $pet = Pet::findOrFail($id);
         $pemilik = Pemilik::all();
         $rasHewan = RasHewan::all();
+
         return view('admin.pet.edit', compact('pet', 'pemilik', 'rasHewan'));
     }
 
     public function update(Request $request, $id)
     {
         $pet = Pet::findOrFail($id);
+        $validated = $this->validatePet($request);
 
-        $validated = $request->validate([
-            'nama' => 'required|string|max:100',
-            'tanggal_lahir' => 'required|date',
-            'warna_tanda' => 'nullable|string|max:45',
-            'jenis_kelamin' => 'required|in:L,P',
-            'idpemilik' => 'required|exists:pemilik,idpemilik',
-            'idras_hewan' => 'required|exists:ras_hewan,idras_hewan',
+        $pet->update([
+            'nama' => $this->formatNama($validated['nama']),
+            'tanggal_lahir' => $validated['tanggal_lahir'],
+            'warna_tanda'   => $validated['warna_tanda'],
+            'jenis_kelamin' => $validated['jenis_kelamin'],
+            'idpemilik'     => $validated['idpemilik'],
+            'idras_hewan'   => $validated['idras_hewan'],
         ]);
-
-        $pet->update($validated);
 
         return redirect()->route('admin.pet.index')
                          ->with('success', 'Data pet berhasil diperbarui.');
@@ -74,5 +90,25 @@ class PetController extends Controller
 
         return redirect()->route('admin.pet.index')
                          ->with('success', 'Data pet berhasil dihapus.');
+    }
+
+    // -------------------------------
+    // Validation & Helper
+    // -------------------------------
+    private function validatePet(Request $request)
+    {
+        return $request->validate([
+            'nama' => 'required|string|max:100',
+            'tanggal_lahir' => 'required|date',
+            'warna_tanda' => 'nullable|string|max:45',
+            'jenis_kelamin' => 'required|in:J,B',
+            'idpemilik' => 'required|integer|exists:pemilik,idpemilik',
+            'idras_hewan' => 'required|integer|exists:ras_hewan,idras_hewan',
+        ]);
+    }
+
+    private function formatNama($nama)
+    {
+        return ucwords(strtolower(trim($nama)));
     }
 }

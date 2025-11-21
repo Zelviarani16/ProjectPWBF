@@ -11,7 +11,6 @@ class UserController extends Controller
 {
     public function index()
     {
-        // Menampilkan semua user tanpa relasi role (karena kamu bilang ini hanya user)
         $users = User::all();
         return view('admin.user.index', compact('users'));
     }

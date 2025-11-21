@@ -1,5 +1,7 @@
 <!-- INI MAI CONTENT DAN EXTEND SIDEBAR YAAA -->
 
+<!-- INI HANYA KERANGKA + SIDEBAR SESUAI REDIRECT ROLE + YIELD -->
+
 <!DOCTYPE html>
 <html lang="id">
 <head>

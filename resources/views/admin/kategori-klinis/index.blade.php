@@ -39,7 +39,10 @@
                                     <a href="{{ route('admin.kategori-klinis.edit', $kk->idkategori_klinis) }}" class="btn-warning-custom">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="{{ route('admin.kategori-klinis.destroy', $kk->idkategori_klinis) }}" method="POST" style="display:inline;">
+                                    <form action="{{ route('admin.kategori-klinis.destroy', $kk->idkategori_klinis) }}" 
+                                        method="POST" style="display:inline;"
+                                        onsubmit="return confirm('Yakin ingin menghapus kategori: {{ $kk->nama_kategori_klinis }}?')">
+
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-danger-custom">
@@ -85,7 +88,7 @@
         <div class="stats-card-custom recent">
             <div>
                 <p class="text-muted mb-1" style="font-size:13px;font-weight:600;">Kategori Klinis Terbaru</p>
-                <h6 class="mb-0">{{ $lastKategori->nama_kategori_klinis ?? '-' }}</h6>
+                <h6 class="mb-0">{{ $kategoriKlinis->last()->nama_kategori_klinis ?? '-' }}</h6>
             </div>
             <div class="stats-icon-custom green">
                 <i class="bi bi-clock-history"></i>
@@ -93,4 +96,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection

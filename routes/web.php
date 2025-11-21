@@ -31,6 +31,13 @@ Route::get('struktur', [SiteController::class, 'struktur'])->name('struktur');
 // LOGOUT
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Auth routes ini bawaan laravel, dia menyimpan 
+//  /login -> get -> menampilkan form login
+//  /login -> post -> dia memproses login
+//  /logout -> post -> logout
+// /register -> get/post -> registrasi kalau tidak di disable
+//  dll utk reset password dan verfiikasi email kalau aktif.
+
 // Authentication routes (login/register)
 Auth::routes();
 

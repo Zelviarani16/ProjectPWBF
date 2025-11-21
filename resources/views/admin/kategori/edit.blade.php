@@ -1,5 +1,8 @@
 @extends('layouts.admin')
 
+@section('title', 'Edit Kategori')
+
+
 @section('content')
 <div class="form-container-custom">
     <div class="page-header-custom">

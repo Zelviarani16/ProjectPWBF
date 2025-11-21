@@ -4,6 +4,7 @@
 @section('page-title', 'Kategori')
 
 @section('content')
+
 <div id="data-page">
     <div class="page-header-custom">
         <h1 class="page-title-custom">Daftar Kategori</h1>

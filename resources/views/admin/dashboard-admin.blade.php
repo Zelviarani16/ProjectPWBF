@@ -1,8 +1,28 @@
+<!-- Dashboard mengambil layouts admin (kerangka) -->
+
+<!-- NOTES -->
+<!-- EXTENDS : aku pakai kerangka ini  -->
 @extends('layouts.admin')
 
+<!-- SECTION : utk mengisi bagian tertentu di layout -->
 @section('title', 'Dashboard Admin')
+<!-- Kalau yield : tempat kosong di layout yang nanti akan diisi oleh section -->
 
+<!-- Dashboard admin ditaruh ke posisi yield(content) milik layouts admin -->
+ <!-- Jadi, layouts admin otomatis membungkus dashboard admin -->
 @section('content')
+
+<!-- 
+🧩 1. Hubungan yield dan section
+✔ Pasti berpasangan
+
+yield('content') di layout = kotak kosong
+section('content') di halaman = isi kotaknya
+
+🔥 Tanpa section → yield kosong
+🔥 Tanpa yield → section tidak ditampilkan -->
+
+<!-- Kalau include : memanggil file kecil lain seperti potongan lego, contoh sidebar, navbar, footer -->
 
 <!-- Greeting Banner -->
 <div class="greeting-banner">
@@ -194,6 +214,7 @@
 
 @endsection
 
+<!-- Push(styles) berpasangan dgn Stack(styles) -->
 @push('styles')
 <style>
     /* ===== GREETING BANNER ===== */

@@ -36,8 +36,8 @@
                             <td><span class="badge-id-custom">{{ $kode->idkode_tindakan_terapi }}</span></td>
                             <td>{{ $kode->kode }}</td>
                             <td>{{ $kode->deskripsi_tindakan_terapi }}</td>
-                            <td>{{ $kode->kategori->nama_kategori ?? '-' }}</td>
-                            <td>{{ $kode->kategoriKlinis->nama_kategori_klinis ?? '-' }}</td>
+                            <td>{{ $kode->nama_kategori }}</td>
+                            <td>{{ $kode->nama_kategori_klinis }}</td>
                             <td>
                                 <div class="action-buttons-custom">
                                     <a href="{{ route('admin.kode-tindakan-terapi.edit', $kode->idkode_tindakan_terapi) }}" class="btn-warning-custom">
@@ -69,6 +69,32 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6 mb-3">
+        <div class="stats-card-custom">
+            <div>
+                <p class="text-muted mb-1" style="font-size:13px;font-weight:600;">Total Kode Tindakan Terapi</p>
+                <h3 class="mb-0">{{ $kodeTindakanTerapi->count() }}</h3>
+            </div>
+            <div class="stats-icon-custom purple">
+                <i class="bi bi-grid-3x3-gap"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="stats-card-custom recent">
+            <div>
+                <p class="text-muted mb-1" style="font-size:13px;font-weight:600;">Kode Tindakan Terapi Terbaru</p>
+                <h6 class="mb-0">{{ $kodeTindakanTerapi->last()->deskripsi_tindakan_terapi ?? '-' }}</h6>
+            </div>
+            <div class="stats-icon-custom green">
+                <i class="bi bi-clock-history"></i>
+            </div>
         </div>
     </div>
 </div>

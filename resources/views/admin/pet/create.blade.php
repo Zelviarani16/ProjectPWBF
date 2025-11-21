@@ -94,9 +94,9 @@
                     <label for="idpemilik" class="form-label-custom">Pemilik</label>
                     <select name="idpemilik" id="idpemilik" class="form-control-custom @error('idpemilik') is-invalid @enderror" required>
                         <option value="">-- Pilih Pemilik --</option>
-                        @foreach($pemilik as $pemilik)
-                            <option value="{{ $pemilik->idpemilik }}" {{ old('idpemilik') == $pemilik->idpemilik ? 'selected' : '' }}>
-                                {{ $pemilik->user->nama }}
+                        @foreach($pemilik as $p)
+                            <option value="{{ $p->idpemilik }}" {{ old('idpemilik') == $p->idpemilik ? 'selected' : '' }}>
+                                {{ $p->nama_user }}
                             </option>
                         @endforeach
                     </select>

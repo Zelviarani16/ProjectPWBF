@@ -2,22 +2,35 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\RasHewan;
 use App\Models\JenisHewan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class RasHewanController extends Controller
 {
     public function index()
     {
-        $rasHewan = RasHewan::with('jenisHewan')->get();
+        // $rasHewan = RasHewan::with('jenisHewan')->get();
+
+        $rasHewan = DB::table('ras_hewan')
+            ->join('jenis_hewan', 'ras_hewan.idjenis_hewan', '=', 'jenis_hewan.idjenis_hewan')
+            ->select(
+                'ras_hewan.*',
+                'jenis_hewan.nama_jenis_hewan'
+            )
+            ->orderBy('ras_hewan.idras_hewan', 'ASC')
+            ->get();
+            
         return view('admin.ras-hewan.index', compact('rasHewan'));
     }
 
     public function create()
     {
-        $jenisHewan = JenisHewan::all(); // ambil semua jenis hewan
+        // $jenisHewan = JenisHewan::all(); // ambil semua jenis hewan
+
+        $jenisHewan = DB::table('jenis_hewan')->get();
 
         return view('admin.ras-hewan.create', compact('jenisHewan'));
     }
@@ -27,11 +40,14 @@ class RasHewanController extends Controller
         $validated = $this->validateRas($request);
 
         // Simpan data baru
-        RasHewan::create([
+        // RasHewan::create([
+        //     'nama_ras' => $this->formatNamaRas($validated['nama_ras']),
+        //     'idjenis_hewan' => $validated['idjenis_hewan'],
+        // ]);
+
+        DB::table('ras_hewan')->insert([
             'nama_ras' => $this->formatNamaRas($validated['nama_ras']),
-            'idjenis_hewan' => $validated['idjenis_hewan'],
-
-
+            'idjenis_hewan' => $validated['idjenis_hewan']
         ]);
 
         return redirect()->route('admin.ras-hewan.index')->with('success', 'Ras hewan berhasil ditambahkan.');
@@ -39,8 +55,14 @@ class RasHewanController extends Controller
 
     public function edit($id)
     {
-        $rasHewan = RasHewan::findOrFail($id);
-        $jenisHewan = JenisHewan::all();
+        // $rasHewan = RasHewan::findOrFail($id);
+        // $jenisHewan = JenisHewan::all();
+
+        $rasHewan = DB::table('ras_hewan')
+            ->where('idras_hewan', $id)
+            ->first();
+
+        $jenisHewan = DB::table('jenis_hewan')->get();
 
         return view('admin.ras-hewan.edit', compact('rasHewan', 'jenisHewan'));
     }
@@ -83,6 +105,5 @@ class RasHewanController extends Controller
     {
         return ucwords(strtolower(trim($nama_ras)));
     }
-
 }
 

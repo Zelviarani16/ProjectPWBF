@@ -48,11 +48,11 @@
                                     $jk = strtolower($p->jenis_kelamin);
                                 @endphp
 
-                                @if(in_array($jk, ['j', 'l', 'jantan']))
+                                @if(in_array($jk, ['J', 'L', 'jantan']))
                                     <span class="badge bg-primary d-inline-flex align-items-center gap-1" style="width:fit-content;">
                                         <i class="bi bi-gender-male"></i> Jantan
                                     </span>
-                                @elseif(in_array($jk, ['b', 'p', 'betina']))
+                                @elseif(in_array($jk, ['B', 'P', 'betina']))
                                     <span class="badge text-white d-inline-flex align-items-center gap-1" style="background-color:#e83e8c;width:fit-content;">
                                         <i class="bi bi-gender-female"></i> Betina
                                     </span>
@@ -62,10 +62,10 @@
                             </td>
 
                             {{-- Ras Hewan --}}
-                            <td>{{ $p->rasHewan->nama_ras ?? '-' }}</td>
+                            <td>{{ $p->nama_ras ?? '-' }}</td>
 
                             {{-- Pemilik --}}
-                            <td>{{ $p->pemilik->user->nama ?? '-' }}</td>
+                            <td>{{ $p->nama_pemilik ?? '-' }}</td>
 
                             {{-- Tombol Aksi --}}
                             <td>

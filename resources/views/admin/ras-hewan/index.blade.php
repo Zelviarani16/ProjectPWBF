@@ -35,7 +35,9 @@
                         <tr>
                             <td><span class="badge-id-custom">{{ $r->idras_hewan }}</span></td>
                             <td>{{ $r->nama_ras }}</td>
-                            <td>{{ $r->jenisHewan->nama_jenis_hewan ?? '-' }}</td>
+                            <!-- <td>{{ $r->jenisHewan->nama_jenis_hewan ?? '-' }}</td> -->
+                            <td>{{ $r->nama_jenis_hewan }}</td>
+
                             <td>
                                 <div class="action-buttons-custom">
                                     <a href="{{ route('admin.ras-hewan.edit', $r->idras_hewan) }}" class="btn-warning-custom">
