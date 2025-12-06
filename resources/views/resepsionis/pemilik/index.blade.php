@@ -12,7 +12,7 @@
 <div class="card-custom">
     <div class="card-header-custom">
         <h5 class="card-title-custom"><i class="bi bi-people"></i> Pemilik</h5>
-        <a href="{{ route('admin.pemilik.create') }}" class="btn-primary-custom">
+        <a href="{{ route('resepsionis.pemilik.create') }}" class="btn-primary-custom">
             <i class="bi bi-plus-circle"></i> Tambah Pemilik
         </a>
     </div>
@@ -40,8 +40,8 @@
                             <td>{{ $p->alamat }}</td>
                             <td>
                                 <div class="action-buttons-custom">
-                                    <a href="{{ route('admin.pemilik.edit', $p->idpemilik) }}" class="btn-warning-custom"><i class="bi bi-pencil"></i></a>
-                                    <form action="{{ route('admin.pemilik.destroy', $p->idpemilik) }}" method="POST" style="display:inline;">
+                                    <a href="{{ route('resepsionis.pemilik.edit', $p->idpemilik) }}" class="btn-warning-custom"><i class="bi bi-pencil"></i></a>
+                                    <form action="{{ route('resepsionis.pemilik.destroy', $p->idpemilik) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-danger-custom" onclick="return confirm('Yakin ingin menghapus pemilik ini?')">
@@ -57,7 +57,7 @@
                                 <div class="empty-state-custom">
                                     <i class="bi bi-inbox"></i>
                                     <p>Belum ada data pemilik</p>
-                                    <a href="{{ route('admin.pemilik.create') }}" class="btn-primary-custom">
+                                    <a href="{{ route('resepsionis.pemilik.create') }}" class="btn-primary-custom">
                                         <i class="bi bi-plus-circle"></i> Tambah Data
                                     </a>
                                 </div>
@@ -66,6 +66,32 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6 mb-3">
+        <div class="stats-card-custom">
+            <div>
+                <p class="text-muted mb-1" style="font-size:13px;font-weight:600;">Total Pemilik</p>
+                <h3 class="mb-0">{{ $pemilik->count() }}</h3>
+            </div>
+            <div class="stats-icon-custom purple">
+                <i class="bi bi-grid-3x3-gap"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <div class="stats-card-custom recent">
+            <div>
+                <p class="text-muted mb-1" style="font-size:13px;font-weight:600;">Pemilik Terbaru</p>
+                <h6 class="mb-0">{{ $pemilikTerbaru->nama_pemilik }}</h6>
+            </div>
+            <div class="stats-icon-custom green">
+                <i class="bi bi-clock-history"></i>
+            </div>
         </div>
     </div>
 </div>

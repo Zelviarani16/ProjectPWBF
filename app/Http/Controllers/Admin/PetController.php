@@ -22,6 +22,8 @@ class PetController extends Controller
                 'u.nama as nama_pemilik',
                 'rh.nama_ras'
             )
+            // pakai alias p karena di DB::table sudah di as kan 'p'
+            ->orderBy('p.idpet', 'ASC')
             ->get();
 
         return view('admin.pet.index', compact('pets'));
@@ -29,12 +31,12 @@ class PetController extends Controller
 
     public function create()
     {
+        $rasHewan = RasHewan::all();
+
         $pemilik = DB::table('pemilik as pm')
             ->leftJoin('user as u', 'pm.iduser', '=', 'u.iduser')
             ->select('pm.*', 'u.nama as nama_user')
             ->get();
-
-        $rasHewan = RasHewan::all();
 
         return view('admin.pet.create', compact('pemilik', 'rasHewan'));
     }
@@ -44,9 +46,9 @@ class PetController extends Controller
         $validated = $this->validatePet($request);
 
         DB::table('pet')->insert([
-            'nama' => $this->formatNama($validated['nama']),
+            'nama'          => $this->formatNama($validated['nama']),
             'tanggal_lahir' => $validated['tanggal_lahir'],
-            'warna_tanda'   => $validated['warna_tanda'],
+            'warna_tanda'   => $validated['warna_tanda'] ?? null,
             'jenis_kelamin' => $validated['jenis_kelamin'],
             'idpemilik'     => $validated['idpemilik'],
             'idras_hewan'   => $validated['idras_hewan'],
@@ -59,7 +61,13 @@ class PetController extends Controller
     public function edit($id)
     {
         $pet = Pet::findOrFail($id);
-        $pemilik = Pemilik::all();
+
+        // Ambil pemilik dengan join ke user supaya ada nama_user
+        $pemilik = DB::table('pemilik as pm')
+            ->leftJoin('user as u', 'pm.iduser', '=', 'u.iduser')
+            ->select('pm.*', 'u.nama as nama_user')
+            ->get();
+
         $rasHewan = RasHewan::all();
 
         return view('admin.pet.edit', compact('pet', 'pemilik', 'rasHewan'));
@@ -68,12 +76,13 @@ class PetController extends Controller
     public function update(Request $request, $id)
     {
         $pet = Pet::findOrFail($id);
+
         $validated = $this->validatePet($request);
 
         $pet->update([
-            'nama' => $this->formatNama($validated['nama']),
+            'nama'          => $this->formatNama($validated['nama']),
             'tanggal_lahir' => $validated['tanggal_lahir'],
-            'warna_tanda'   => $validated['warna_tanda'],
+            'warna_tanda'   => $validated['warna_tanda'] ?? null,
             'jenis_kelamin' => $validated['jenis_kelamin'],
             'idpemilik'     => $validated['idpemilik'],
             'idras_hewan'   => $validated['idras_hewan'],
@@ -95,15 +104,23 @@ class PetController extends Controller
     // -------------------------------
     // Validation & Helper
     // -------------------------------
+
     private function validatePet(Request $request)
     {
         return $request->validate([
-            'nama' => 'required|string|max:100',
+            'nama'          => 'required|string|max:100',
             'tanggal_lahir' => 'required|date',
-            'warna_tanda' => 'nullable|string|max:45',
-            'jenis_kelamin' => 'required|in:J,B',
-            'idpemilik' => 'required|integer|exists:pemilik,idpemilik',
-            'idras_hewan' => 'required|integer|exists:ras_hewan,idras_hewan',
+            'warna_tanda'   => 'nullable|string|max:45',
+            'jenis_kelamin' => [
+                'required',
+                function($attribute, $value, $fail) {
+                    if (!in_array(trim($value), ['L','P'])) {
+                        $fail("The selected $attribute is invalid.");
+                    }
+                }
+            ],
+            'idras_hewan'   => 'required|integer|exists:ras_hewan,idras_hewan',
+            'idpemilik'     => 'required|integer|exists:pemilik,idpemilik',
         ]);
     }
 

@@ -16,82 +16,80 @@
             <i class="bi bi-person-circle"></i>
         </div>
         <div class="user-info">
-            <h5>{{ Auth::user()->name }}</h5>
-            <span class="user-role">{{ Auth::user()->role ?? 'Perawat' }}</span>
+            <h5>{{ Auth::user()->nama }}</h5>
+            <span class="user-role">Perawat</span>
             <span class="user-email">{{ Auth::user()->email }}</span>
         </div>
     </div>
 
     <!-- Navigation Menu -->
     <div class="sidebar-menu">
+
+        <!-- MAIN -->
         <div class="menu-section">
             <div class="menu-title">
                 <i class="bi bi-grid"></i> Main Menu
             </div>
-            <a href="{{ route('admin.dashboard') }}" class="menu-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+
+            <a href="{{ route('perawat.dashboard') }}" 
+                class="menu-item {{ request()->routeIs('perawat.dashboard') ? 'active' : '' }}">
                 <i class="bi bi-speedometer2"></i>
                 <span>Dashboard</span>
             </a>
         </div>
 
+        <!-- PASIEN -->
         <div class="menu-section">
             <div class="menu-title">
-                <i class="bi bi-database"></i> Data Master
+                <i class="bi bi-people"></i> Data Pasien
             </div>
-            <a href="{{ route('admin.jenis-hewan.index') }}" class="menu-item {{ request()->routeIs('admin.jenis-hewan.*') ? 'active' : '' }}">
-                <i class="bi bi-tag"></i>
-                <span>Jenis Hewan</span>
-            </a>
-            <a href="{{ route('admin.ras-hewan.index') }}" class="menu-item {{ request()->routeIs('admin.ras-hewan.*') ? 'active' : '' }}">
-                <i class="bi bi-tags"></i>
-                <span>Ras Hewan</span>
-            </a>
-            <a href="{{ route('admin.kategori.index') }}" class="menu-item {{ request()->routeIs('admin.kategori.*') ? 'active' : '' }}">
-                <i class="bi bi-folder"></i>
-                <span>Kategori</span>
-            </a>
-            <a href="{{ route('admin.kategori-klinis.index') }}" class="menu-item {{ request()->routeIs('admin.kategori-klinis.*') ? 'active' : '' }}">
-                <i class="bi bi-clipboard-pulse"></i>
-                <span>Kategori Klinis</span>
-            </a>
-            <a href="{{ route('admin.kode-tindakan-terapi.index') }}" class="menu-item {{ request()->routeIs('admin.kode-tindakan-terapi.*') ? 'active' : '' }}">
-                <i class="bi bi-file-medical"></i>
-                <span>Kode Tindakan Terapi</span>
+
+            <a href="{{ route('perawat.pasien.index') }}" 
+                class="menu-item {{ request()->routeIs('perawat.pasien.*') ? 'active' : '' }}">
+                <i class="bi bi-person-vcard"></i>
+                <span>Data Pasien</span>
             </a>
         </div>
 
+        <!-- REKAM MEDIS -->
         <div class="menu-section">
             <div class="menu-title">
-                <i class="bi bi-gear"></i> Management
+                <i class="bi bi-clipboard-pulse"></i> Rekam Medis
             </div>
-            <a href="{{ route('admin.pet.index') }}" class="menu-item {{ request()->routeIs('admin.pet.*') ? 'active' : '' }}">
-                <i class="bi bi-heart"></i>
-                <span>Pet</span>
-            </a>
-            <a href="{{ route('admin.user.index') }}" class="menu-item {{ request()->routeIs('admin.user.*') ? 'active' : '' }}">
-                <i class="bi bi-people"></i>
-                <span>User</span>
-            </a>
-            <a href="{{ route('admin.role.index') }}" class="menu-item {{ request()->routeIs('admin.role.*') ? 'active' : '' }}">
-                <i class="bi bi-shield-check"></i>
-                <span>Role</span>
-            </a>
-            <a href="{{ route('admin.pemilik.index') }}" class="menu-item {{ request()->routeIs('admin.pemilik.*') ? 'active' : '' }}">
-                <i class="bi bi-shield-check"></i>
-                <span>Pemilik</span>
+
+            <a href="{{ route('perawat.rekam-medis.index') }}" 
+                class="menu-item {{ request()->routeIs('perawat.rekam-medis.*') ? 'active' : '' }}">
+                <i class="bi bi-journal-medical"></i>
+                <span>Rekam Medis</span>
             </a>
         </div>
 
-        <!-- Logout -->
+        <!-- PROFIL -->
         <div class="menu-section">
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            @csrf
-        </form>
-        <a href="#" class="menu-item logout-btn" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Logout</span>
-         </a>
+            <div class="menu-title">
+                <i class="bi bi-person-badge"></i> Profil
+            </div>
+
+            <a href="{{ route('perawat.profil.index') }}" 
+                class="menu-item {{ request()->routeIs('perawat.profil.index') ? 'active' : '' }}">
+                <i class="bi bi-person-lines-fill"></i>
+                <span>Profil Saya</span>
+            </a>
         </div>
+
+        <!-- LOGOUT -->
+        <div class="menu-section">
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            
+            <a href="#" class="menu-item logout-btn"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+
     </div>
 </div>
 

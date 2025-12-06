@@ -72,7 +72,7 @@
                 <i class="bi bi-people"></i>
                 <span>User</span>
             </a>
-            <a href="{{ route('admin.role.index') }}" class="menu-item {{ request()->routeIs('admin.role.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.user-role.index') }}" class="menu-item {{ request()->routeIs('admin.role.*') ? 'active' : '' }}">
                 <i class="bi bi-shield-check"></i>
                 <span>Role</span>
             </a>

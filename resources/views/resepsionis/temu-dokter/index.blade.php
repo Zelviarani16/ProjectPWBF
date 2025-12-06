@@ -22,6 +22,7 @@
             <table class="table-custom">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>No Urut</th>
                         <th>Waktu Daftar</th>
                         <th>Pemilik</th>
@@ -34,11 +35,12 @@
                 <tbody>
                     @forelse($reservasi as $r)
                         <tr>
+                            <td>{{ $r->idreservasi_dokter }}</td>
                             <td>{{ $r->no_urut }}</td>
                             <td>{{ \Carbon\Carbon::parse($r->waktu_daftar)->format('d M Y H:i') }}</td>
-                            <td>{{ $r->pet->pemilik->user->nama ?? '-' }}</td>
-                            <td>{{ $r->pet->nama ?? '-' }}</td>
-                            <td>{{ $r->roleUser->user->nama ?? '-' }}</td>
+                            <td>{{ optional($r->pet->pemilik->user)->nama ?? '-' }}</td>
+                            <td>{{ optional($r->pet)->nama ?? '-' }}</td>
+                            <td>{{ optional($r->roleUser->user)->nama ?? '-' }}</td>
                             <td>{{ $r->status }}</td>
                             <td>
                                 <div class="action-buttons-custom">

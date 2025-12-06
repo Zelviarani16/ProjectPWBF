@@ -2,32 +2,41 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Pemilik;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Http\Controllers\Controller;
 
 class PemilikController extends Controller
 {
     public function index()
     {
         $pemilik = Pemilik::with('user', 'pets')->get();
-        return view('admin.pemilik.index', compact('pemilik'));
+        $pemilikTerbaru = Pemilik::orderBy('idpemilik', 'DESC')->first();
+        return view('admin.pemilik.index', compact('pemilik', 'pemilikTerbaru'));
     }
 
     public function create()
     {
-        return view('admin.pemilik.create');
+        // Ambil semua user untuk dropdown
+        $users = User::all(); 
+        return view('admin.pemilik.create', compact('users'));
     }
 
     public function store(Request $request)
     {
         $validated = $this->validatePemilik($request);
 
+        // Ambil ID terakhir dan tambahkan 1
+        $lastPemilik = Pemilik::orderBy('idpemilik', 'DESC')->first();
+        $newId = $lastPemilik ? $lastPemilik->idpemilik + 1 : 1;
+
         Pemilik::create([
-            'nama_pemilik' => $this->formatNama($validated['nama_pemilik']),
+            'idpemilik' => $newId,             // ID diisi otomatis
+            'iduser' => $validated['iduser'],  // relasi ke user
             'alamat' => trim($validated['alamat']),
-            'no_wa' => $validated['no_wa'],
+            'no_wa' => $this->formatWA($validated['no_wa']),
         ]);
 
         return redirect()
@@ -35,10 +44,12 @@ class PemilikController extends Controller
             ->with('success', 'Data pemilik berhasil ditambahkan.');
     }
 
+
     public function edit($id)
     {
         $pemilik = Pemilik::findOrFail($id);
-        return view('admin.pemilik.edit', compact('pemilik'));
+        $users = User::all();
+        return view('admin.pemilik.edit', compact('pemilik', 'users'));
     }
 
     public function update(Request $request, $id)
@@ -47,9 +58,8 @@ class PemilikController extends Controller
         $validated = $this->validatePemilik($request, $id);
 
         $pemilik->update([
-            'nama_pemilik' => $this->formatNama($validated['nama_pemilik']),
             'alamat' => trim($validated['alamat']),
-            'no_wa' => $validated['no_wa'],
+            'no_wa' => $this->formatWA($validated['no_wa']),
         ]);
 
         return redirect()
@@ -72,7 +82,6 @@ class PemilikController extends Controller
     private function validatePemilik(Request $request, $id = null)
     {
         return $request->validate([
-            'nama_pemilik' => ['required', 'string', 'max:255'],
             'alamat' => ['required', 'string', 'max:500'],
             'no_wa' => [
                 'required',
@@ -81,10 +90,23 @@ class PemilikController extends Controller
                 Rule::unique('pemilik', 'no_wa')->ignore($id, 'idpemilik')
             ],
         ]);
-    }
+
+        // Hanya tambahkan iduser saat create (bukan update)
+        if ($id === null) {
+            $rules['iduser'] = ['required', 'exists:user,iduser'];
+        }
+
+        return $request->validate($rules);
+   }
 
     private function formatNama($nama)
     {
         return ucwords(strtolower(trim($nama)));
+    }
+
+    // Helper untuk format nomor WA ()
+    private function formatWA($no_wa)
+    {
+        return preg_replace('/\D/', '', $no_wa); // hapus karakter non-digit
     }
 }

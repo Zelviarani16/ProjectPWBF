@@ -21,6 +21,14 @@
 
 
     <div class="card-body">
+
+        <!-- {{-- Flash Message --}}
+        @if(session('success'))
+            <div class="alert-success-custom">
+                {{ session('success') }}
+            </div>
+         @endif -->
+
         <div class="table-responsive">
             <table class="table-custom">
                 <thead>
@@ -47,8 +55,10 @@
                             </td>
                             <td>
                                 <div class="action-buttons-custom">
-                                    <a href="#" class="btn-warning-custom"><i class="bi bi-pencil"></i></a>
-                                    <form action="#" method="POST" style="display:inline;">
+                                    <a href="{{ route('admin.user.edit', $user->iduser) }}" class="btn-warning-custom">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="{{ route('admin.user.destroy', $user->iduser) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-danger-custom">

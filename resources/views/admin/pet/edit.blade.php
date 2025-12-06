@@ -49,14 +49,17 @@
 
                 <div class="form-group">
                     <label for="idpemilik" class="form-label-custom">Pemilik</label>
-                    <select name="idpemilik" id="idpemilik" class="form-control-custom" required>
+                    <select name="idpemilik" id="idpemilik" class="form-control-custom @error('idpemilik') is-invalid @enderror" required>
                         <option value="">-- Pilih Pemilik --</option>
                         @foreach($pemilik as $p)
                             <option value="{{ $p->idpemilik }}" {{ old('idpemilik', $pet->idpemilik) == $p->idpemilik ? 'selected' : '' }}>
-                                {{ $p->nama }}
+                                {{ $p->nama_user }}
                             </option>
                         @endforeach
                     </select>
+                    @error('idpemilik')
+                        <small class="text-danger">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="form-group">

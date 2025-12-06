@@ -32,12 +32,40 @@ class User extends Authenticatable
     // Relasi Many-to-Many ke Role
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'role_user', 'iduser', 'idrole');
+        return $this->belongsToMany(Role::class, 
+        'role_user', // tabel pivot
+        'iduser', // fk di abel pivot ke tabel user
+        'idrole'
+    )->withPivot('status'); // fk di tabel pivot utk role
     }
 
     public function roleUser()
     {
         // Satu user bisa punya banyak role (tp 1 yang aktif)
         return $this->hasMany(RoleUser::class, 'iduser');
+    }
+
+    public function isDokter()
+    {
+        return $this->roles()->where('nama_role', 'dokter')->exists();
+    }
+
+    public function perawat()
+    {
+        return $this->hasOne(Perawat::class,
+        'iduser',
+        'iduser');
+    }
+
+    // Helper method utk cek role
+    public function hasRole($roleName)
+    {
+        return $this->roles()->where('nama_role', $roleName)->exists();
+    }
+
+    // Helper method utk cek apakah user adalah perawat
+    public function isPerawat()
+    {
+        return $this->hasRole('perawat');
     }
 }

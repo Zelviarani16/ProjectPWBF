@@ -10,10 +10,8 @@
 </div>
 
 <div class="card-custom">
-    <div class="card-header-custom">
-        <h5 class="card-title-custom">
-            <i class="bi bi-collection"></i> Data Pet
-        </h5>
+    <div class="card-header-custom d-flex justify-content-between align-items-center">
+        <h5 class="card-title-custom"><i class="bi bi-collection"></i> Data Pet</h5>
         <a href="{{ route('admin.pet.create') }}" class="btn-primary-custom">
             <i class="bi bi-plus-circle"></i> Tambah Pet
         </a>
@@ -31,65 +29,50 @@
                         <th>Jenis Kelamin</th>
                         <th>Ras Hewan</th>
                         <th>Pemilik</th>
-                        <th style="width: 150px;">Aksi</th>
+                        <th style="width:150px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($pets as $p)
+                    @forelse($pets as $pet)
                         <tr>
-                            <td><span class="badge-id-custom">{{ $p->idpet }}</span></td>
-                            <td>{{ $p->nama }}</td>
-                            <td>{{ \Carbon\Carbon::parse($p->tanggal_lahir)->format('d M Y') }}</td>
-                            <td>{{ $p->warna_tanda ?? '-' }}</td>
-
-                            {{-- Jenis Kelamin --}}
+                            <td>{{ $pet->idpet }}</td>
+                            <td>{{ $pet->nama }}</td>
+                            <td>{{ \Carbon\Carbon::parse($pet->tanggal_lahir)->format('d M Y') }}</td>
+                            <td>{{ $pet->warna_tanda ?? '-' }}</td>
                             <td>
-                                @php
-                                    $jk = strtolower($p->jenis_kelamin);
-                                @endphp
-
-                                @if(in_array($jk, ['J', 'L', 'jantan']))
-                                    <span class="badge bg-primary d-inline-flex align-items-center gap-1" style="width:fit-content;">
+                                @if($pet->jenis_kelamin == 'L')
+                                    <span class="badge bg-primary d-inline-flex align-items-center gap-1">
                                         <i class="bi bi-gender-male"></i> Jantan
                                     </span>
-                                @elseif(in_array($jk, ['B', 'P', 'betina']))
-                                    <span class="badge text-white d-inline-flex align-items-center gap-1" style="background-color:#e83e8c;width:fit-content;">
+                                @elseif($pet->jenis_kelamin == 'P')
+                                    <span class="badge text-white d-inline-flex align-items-center gap-1" style="background-color:#e83e8c;">
                                         <i class="bi bi-gender-female"></i> Betina
                                     </span>
                                 @else
                                     <span class="badge bg-secondary">Tidak Diketahui</span>
                                 @endif
                             </td>
-
-                            {{-- Ras Hewan --}}
-                            <td>{{ $p->nama_ras ?? '-' }}</td>
-
-                            {{-- Pemilik --}}
-                            <td>{{ $p->nama_pemilik ?? '-' }}</td>
-
-                            {{-- Tombol Aksi --}}
-                            <td>
-                                <div class="action-buttons-custom">
-                                    <a href="{{ route('admin.pet.edit', $p->idpet) }}" class="btn-warning-custom" title="Edit">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-                                    <form action="{{ route('admin.pet.destroy', $p->idpet) }}" method="POST" style="display:inline;"
-                                          onsubmit="return confirm('Yakin ingin menghapus pet: {{ $p->nama }}?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-danger-custom" title="Hapus">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </div>
+                            <td>{{ $pet->nama_ras ?? '-' }}</td>
+                            <td>{{ $pet->nama_pemilik ?? '-' }}</td>
+                            <td class="d-flex gap-1">
+                                <a href="{{ route('admin.pet.edit', $pet->idpet) }}" class="btn-warning-custom" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form action="{{ route('admin.pet.destroy', $pet->idpet) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus pet: {{ $pet->nama }}?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-danger-custom" title="Hapus">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8">
+                            <td colspan="8" class="text-center py-4">
                                 <div class="empty-state-custom">
-                                    <i class="bi bi-inbox"></i>
-                                    <p>Belum ada data pet</p>
+                                    <i class="bi bi-inbox fs-2"></i>
+                                    <p class="mt-2 mb-2">Belum ada data pet</p>
                                     <a href="{{ route('admin.pet.create') }}" class="btn-primary-custom">
                                         <i class="bi bi-plus-circle"></i> Tambah Data
                                     </a>
@@ -103,12 +86,11 @@
     </div>
 </div>
 
-{{-- Stats --}}
 <div class="row mt-4">
     <div class="col-md-6 mb-3">
         <div class="stats-card-custom">
             <div>
-                <p class="text-muted mb-1" style="font-size:13px;font-weight:600;">Total Pet</p>
+                <p class="text-muted mb-1" style="font-size:13px;font-weight:600;">Total Kategori Klinis</p>
                 <h3 class="mb-0">{{ $pets->count() }}</h3>
             </div>
             <div class="stats-icon-custom purple">
@@ -120,7 +102,7 @@
     <div class="col-md-6 mb-3">
         <div class="stats-card-custom recent">
             <div>
-                <p class="text-muted mb-1" style="font-size:13px;font-weight:600;">Pet Terbaru</p>
+                <p class="text-muted mb-1" style="font-size:13px;font-weight:600;">Kategori Klinis Terbaru</p>
                 <h6 class="mb-0">{{ $pets->last()->nama ?? '-' }}</h6>
             </div>
             <div class="stats-icon-custom green">
@@ -129,4 +111,7 @@
         </div>
     </div>
 </div>
+
+
+
 @endsection

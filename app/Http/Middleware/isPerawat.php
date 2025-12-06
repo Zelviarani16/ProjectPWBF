@@ -16,19 +16,21 @@ class isPerawat
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Jika user tidak terautentifikasi. redirect ke login
         if (!Auth::check()) {
             return redirect()->route('login');
         }
 
+
         // Ambil role dari session atau dari relasi user
-        $userRole = session('user_role');
+        $userRole = (int) session('user_role');
 
         if ($userRole === 3) {
-             return $next($request);
-        }else {
-            return back()->with('error', 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini');
+            return $next($request);
+
+        } else {
+            return abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
-        
-       
+
     }
 }

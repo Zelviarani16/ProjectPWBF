@@ -65,8 +65,8 @@
                     <label for="jenis_kelamin" class="form-label-custom">Jenis Kelamin</label>
                     <select name="jenis_kelamin" id="jenis_kelamin" class="form-control-custom @error('jenis_kelamin') is-invalid @enderror" required>
                         <option value="">-- Pilih Jenis Kelamin --</option>
-                        <option value="J" {{ old('jenis_kelamin') == 'J' ? 'selected' : '' }}>Jantan</option>
-                        <option value="B" {{ old('jenis_kelamin') == 'B' ? 'selected' : '' }}>Betina</option>
+                        <option value="L" {{ old('jenis_kelamin') == 'L' ? 'selected' : '' }}>Jantan</option>
+                        <option value="P" {{ old('jenis_kelamin') == 'P' ? 'selected' : '' }}>Betina</option>
                     </select>
                     @error('jenis_kelamin')
                         <small class="text-danger">{{ $message }}</small>

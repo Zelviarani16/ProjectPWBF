@@ -104,7 +104,21 @@
             font-weight: 700;
             color: #1a202c;
         }
+
+        .alert-info-custom {
+        background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+        border-left: 4px solid #0284c7;
+        padding: 1.25rem;
+        border-radius: 8px;
+        color: #0c4a6e;
+        }
+
+        .alert-info-custom strong {
+            color: #075985;
+        }
     </style>
+
+    
 
     @stack('styles')
 </head>

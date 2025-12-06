@@ -16,20 +16,19 @@ class isPemilik
      */
     public function handle(Request $request, Closure $next): Response
     {
-     if (Auth::check() && Auth::user()->role->nama_role === 'pemilik') {
+        // Jika user tidak terautentifikasi, redirect ke login
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+
+        // Ambil role dari session (idrole)
+        $userRole = (int) session('user_role');
+
+        // idrole pemilik = 5
+        if ($userRole === 5) {
             return $next($request);
         }
 
-        // Jika bukan pemilik, arahkan sesuai rolenya
-        if (Auth::check()) {
-            if (Auth::user()->role->nama_role === 'administrator') {
-                return redirect()->route('admin.dashboard');
-            } elseif (Auth::user()->role->nama_role === 'resepsionis') {
-                return redirect()->route('resepsionis.dashboard');
-            }
-        }
-
-        // Kalau belum login
-        return redirect('/login');
+        return abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
     }
 }

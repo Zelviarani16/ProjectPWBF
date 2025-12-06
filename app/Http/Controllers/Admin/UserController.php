@@ -36,6 +36,34 @@ class UserController extends Controller
         return redirect()->route('admin.user.index')->with('success', 'User berhasil ditambahkan.');
     }
 
+        public function edit($id)
+    {
+        $user = User::findOrFail($id);
+        return view('admin.user.edit', compact('user'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Temukan data
+        $user = User::findOrFail($id);
+
+         // Validasi
+        $validated = $this->validateUpdate($request, $id);
+
+        // Update data
+        $user->nama = $this->formatNama($validated['nama']);
+        $user->email = strtolower(trim($validated['email']));
+
+        // Jika password diisi, update
+        if (!empty($validated['password'])) {
+            $user->password = Hash::make($validated['password']);
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.user.index')->with('success', 'User berhasil diperbarui.');
+    }
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);
@@ -53,6 +81,16 @@ class UserController extends Controller
             'email' => 'required|email|unique:user,email',
             'password' => 'required|min:6|same:retype_password',
             'retype_password' => 'required|min:6',
+        ]);
+    }
+
+    private function validateUpdate(Request $request, $id)
+    {
+        return $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:user,email,' . $id . ',iduser',
+            'password' => 'nullable|min:6|same:retype_password',
+            'retype_password' => 'nullable|min:6',
         ]);
     }
 
