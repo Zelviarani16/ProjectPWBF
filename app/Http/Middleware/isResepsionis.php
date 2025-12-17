@@ -21,7 +21,6 @@ class isResepsionis
             return redirect()->route('login');
         }
 
-
         // Ambil role dari session atau dari relasi user
         $userRole = (int) session('user_role');
 
@@ -29,7 +28,7 @@ class isResepsionis
             return $next($request);
 
         } else {
-            return abort('error', 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
+            return abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
 
     }

@@ -81,7 +81,7 @@ class PemilikController extends Controller
 
     private function validatePemilik(Request $request, $id = null)
     {
-        return $request->validate([
+        $rules = [
             'alamat' => ['required', 'string', 'max:500'],
             'no_wa' => [
                 'required',
@@ -89,7 +89,7 @@ class PemilikController extends Controller
                 'max:20',
                 Rule::unique('pemilik', 'no_wa')->ignore($id, 'idpemilik')
             ],
-        ]);
+        ];
 
         // Hanya tambahkan iduser saat create (bukan update)
         if ($id === null) {

@@ -24,10 +24,13 @@
         <li><a href="{{ route('layanan') }}">Layanan Umum</a></li>
         <li><a href="{{ route('kontak') }}">Kontak</a></li>
 
-      @guest
+        <!-- guest adalah blade directive yg hanya menampilkan konten jika user belum login -->
+        <!-- Setelah klik login di navbar, browser request /login (GET), dan di routes itu mengarah ke logincontroller@showLoginForm -->
+        @guest
       <li><a href="{{ route('login') }}">Login</a></li>
     @endguest
 
+    <!-- auth -> tampilkan konten jika user sdh login -->
     @auth
       <li>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

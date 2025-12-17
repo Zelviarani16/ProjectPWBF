@@ -16,8 +16,10 @@
             <i class="bi bi-person-circle"></i>
         </div>
         <div class="user-info">
-            <h5>{{ Auth::user()->name }}</h5>
-            <span class="user-role">{{ Auth::user()->role ?? 'Administrator' }}</span>
+            <h5>{{ Auth::user()->nama }}</h5>
+            <span class="user-role">
+                {{ session('user_role_name') ?? 'Administrator' }}
+            </span>
             <span class="user-email">{{ Auth::user()->email }}</span>
         </div>
     </div>
@@ -72,7 +74,7 @@
                 <i class="bi bi-people"></i>
                 <span>User</span>
             </a>
-            <a href="{{ route('admin.user-role.index') }}" class="menu-item {{ request()->routeIs('admin.role.*') ? 'active' : '' }}">
+            <a href="{{ route('admin.user-role.index') }}" class="menu-item {{ request()->routeIs('admin.user-role.*') ? 'active' : '' }}">
                 <i class="bi bi-shield-check"></i>
                 <span>Role</span>
             </a>

@@ -28,7 +28,10 @@ class PemilikController extends Controller
     {
         $validated = $this->validatePemilik($request);
 
+        $lastId = Pemilik::max('idpemilik') ?? 0;
+
         Pemilik::create([
+            'idpemilik' => $lastId + 1,
             'iduser' => $validated['iduser'], // relasi ke user
             'alamat' => trim($validated['alamat']),
             'no_wa' => $validated['no_wa'],
@@ -77,7 +80,7 @@ class PemilikController extends Controller
     private function validatePemilik(Request $request, $id = null)
     {
         return $request->validate([
-            'nama_pemilik' => ['required', 'string', 'max:255'],
+            'iduser' => ['required', 'exists:user,iduser'], // pilih user terkait
             'alamat' => ['required', 'string', 'max:500'],
             'no_wa' => [
                 'required',

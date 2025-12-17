@@ -512,15 +512,20 @@
 
             <div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
+                    <!-- Semua form POST di Laravel WAJIB punya CSRF token -->
+                     <!-- Laravel akan menolak request POST yang tidak punya token ini.
+                            Tujuannya: menghindari serangan CSRF (Cross Site Request Forgery).
+                            Browser otomatis mengirim token ini saat submit. -->
                     @csrf
 
+                    <!-- name="email" adalah dia yang menentukan nama field yang dikirim POST ke server -->
                     <div class="form-group">
                         <label for="email">Email Address</label>
                         <input 
                             id="email" 
                             type="email" 
                             class="form-control @error('email') is-invalid @enderror" 
-                            name="email" 
+                            name="email"  
                             value="{{ old('email') }}" 
                             required 
                             autocomplete="email" 

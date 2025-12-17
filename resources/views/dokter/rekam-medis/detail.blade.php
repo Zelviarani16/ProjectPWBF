@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.lte.main')
 
 @section('title', 'Detail Rekam Medis')
 @section('page-title', 'Detail Rekam Medis')
@@ -35,13 +35,13 @@
                     <div class="col-md-3">
                         <div class="info-item-custom">
                             <label>Nama Hewan</label>
-                            <p class="info-value">{{ $rekam->reservasi->pet->nama ?? '-' }}</p>
+                            <p class="info-value">{{ $rekam->nama_pet ?? '-' }}</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="info-item-custom">
                             <label>Pemilik</label>
-                            <p class="info-value">{{ $rekam->reservasi->pet->pemilik->user->nama ?? '-' }}</p>
+                            <p class="info-value">{{ $rekam->nama_pemilik ?? '-' }}</p>
                         </div>
                     </div>
                 </div>
@@ -50,13 +50,13 @@
                     <div class="col-md-3">
                         <div class="info-item-custom">
                             <label>Jenis Hewan</label>
-                            <p class="info-value">{{ $rekam->reservasi->pet->ras->jenisHewan->nama_jenis_hewan ?? '-' }}</p>
+                            <p class="info-value">{{ $rekam->nama_jenis_hewan ?? '-' }}</p>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="info-item-custom">
                             <label>Ras</label>
-                            <p class="info-value">{{ $rekam->reservasi->pet->ras->nama_ras ?? '-' }}</p>
+                            <p class="info-value">{{ $rekam->nama_ras ?? '-' }}</p>
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -68,7 +68,7 @@
                     <div class="col-md-3">
                         <div class="info-item-custom">
                             <label>Tanggal Pemeriksaan</label>
-                            <p class="info-value">{{ $rekam->created_at ? $rekam->created_at->format('d F Y, H:i') : '-' }}</p>
+                            <p class="info-value">{{ \Carbon\Carbon::parse($rekam->created_at)->format('d F Y, H:i') }}</p>
                         </div>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
 
             <div class="card-body">
 
-                @if($rekam->detail && $rekam->detail->count() > 0)
+                @if($detail->count() > 0)
                     <div class="table-responsive">
                         <table class="table-custom">
                             <thead>
@@ -147,30 +147,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($rekam->detail as $index => $detail)
+                                @foreach($detail as $i => $d)
                                     <tr>
-                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $i + 1 }}</td>
 
                                         <td>
                                             <span class="badge-custom badge-info">
-                                                {{ $detail->kodeTindakanTerapi->kode ?? '-' }}
-                                                — {{ $detail->kodeTindakanTerapi->deskripsi_tindakan_terapi ?? '-' }}
+                                                {{ $d->deskripsi_tindakan_terapi }}
                                             </span>
                                         </td>
 
-                                        <td>{{ $detail->detail }}</td>
+                                        <td>{{ $d->detail }}</td>
 
                                         <td>
                                             <div class="action-buttons-custom">
 
+                                            @if($rekam->status_reservasi !== 'S')
                                                 {{-- EDIT --}}
-                                                <a href="{{ route('dokter.rekam-medis.detail.edit', $detail->iddetail_rekam_medis) }}"
+                                                <a href="{{ route('dokter.rekam-medis.detail.edit', $d->iddetail_rekam_medis) }}"
                                                    class="btn-warning-custom" title="Edit">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
 
                                                 {{-- DELETE --}}
-                                                <form action="{{ route('dokter.rekam-medis.detail.destroy', $detail->iddetail_rekam_medis) }}"
+                                                <form action="{{ route('dokter.rekam-medis.detail.destroy', $d->iddetail_rekam_medis) }}"
                                                       method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('DELETE')
@@ -180,6 +180,9 @@
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 </form>
+                                                @else
+                                                    <span class="badge bg-secondary">Terkunci</span>
+                                                @endif
 
                                             </div>
                                         </td>
@@ -196,12 +199,19 @@
                     </div>
                 @endif
 
+                @if($rekam->status_reservasi !== 'S')
                 <div class="mt-4">
                     <a href="{{ route('dokter.rekam-medis.detail.create', $rekam->idrekam_medis) }}"
                        class="btn btn-primary">
                         <i class="bi bi-plus-circle"></i> Tambah Tindakan
                     </a>
                 </div>
+                @else
+                    <div class="mt-4">
+                        <span class="badge bg-secondary">Pemeriksaan telah difinalisasi</span>
+                    </div>
+                @endif
+
 
             </div>
         </div>
@@ -216,6 +226,21 @@
             <a href="{{ route('dokter.rekam-medis.index') }}" class="btn-secondary-custom">
                 <i class="bi bi-arrow-left"></i> Kembali ke Daftar
             </a>
+
+
+            {{-- FINALISASI PEMERIKSAAN --}}
+                @if($rekam->status_reservasi !== 'S')
+                <form action="{{ route('dokter.pasien.selesai', $rekam->idreservasi_dokter) }}"
+                      method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="btn btn-danger"
+                        onclick="return confirm('Yakin menyelesaikan pemeriksaan? Data tidak dapat diubah.')">
+                        <i class="bi bi-check-circle"></i> Selesaikan Pemeriksaan
+                    </button>
+                </form>
+            @endif
+
         </div>
     </div>
 </div>

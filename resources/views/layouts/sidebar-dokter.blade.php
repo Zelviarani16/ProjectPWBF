@@ -49,6 +49,12 @@
                 <i class="bi bi-person-vcard"></i>
                 <span>Data Pasien</span>
             </a>
+
+            <a href="{{ route('dokter.pasien.pending') }}" 
+                class="menu-item {{ request()->routeIs('dokter.pasien.*') ? 'active' : '' }}">
+                <i class="bi bi-person-vcard"></i>
+                <span>Daftar Pasien</span>
+            </a>
         </div>
 
         <!-- REKAM MEDIS -->

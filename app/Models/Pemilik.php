@@ -12,6 +12,7 @@ class Pemilik extends Model
     protected $table = 'pemilik';
     protected $primaryKey = 'idpemilik';
     public $timestamps = false;
+    public $incrementing = false;
 
     // Fillable utk memastikan kolom yg diisi memang diizinkan. Kalau kolom tidak ada di ffillable laravel akan emmasukkannya dan biasanya akan menolak mass assignment 
     protected $fillable = [

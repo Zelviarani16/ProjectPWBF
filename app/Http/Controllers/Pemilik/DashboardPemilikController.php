@@ -10,68 +10,62 @@ use App\Models\Pemilik;
 use App\Models\Pet;
 use App\Models\TemuDokter;
 use App\Models\RekamMedis;
-use App\Models\DetailRekamMedis;
 
 class DashboardPemilikController extends Controller
 {
-
     // Dashboard utama pemilik
     public function index()
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
+
+        // Ambil record pemilik terkait user ini (relasi di model User: pemilik)
         $pemilik = $user->pemilik;
 
+        // Jika belum punya record pemilik, set semua statistik ke 0
         if (!$pemilik) {
-            // Bisa redirect, atau buat pemilik otomatis
-            return redirect()->route('landing')->with('error', 'Data pemilik belum ada.');
+            $totalPet = 0;
+            $totalTemuDokter = 0;
+            $totalRekamMedis = 0;
+
+            return view('pemilik.dashboard-pemilik', compact(
+                'totalPet',
+                'totalTemuDokter',
+                'totalRekamMedis'
+            ));
         }
 
-        $hewanCount = $pemilik->pets()->count();
-        $jadwalCount = TemuDokter::whereIn('idpet', $pemilik->pets->pluck('idpet'))->count();
+        // Hitung jumlah hewan milik pemilik ini
+        // gunakan relasi agar konsisten dengan model (mis. $pemilik->pets())
+        $totalPet = $pemilik->pets()->count();
 
-        return view('pemilik.dashboard', compact('user', 'pemilik', 'hewanCount', 'jadwalCount'));
-    }
+        // Ambil id hewan milik pemilik ini (untuk query selanjutnya)
+        $hewanIds = $pemilik->pets()->pluck('idpet'); // collection of idpet
 
+        // Jika tidak ada hewan, set 0 untuk lainnya juga
+        if ($hewanIds->isEmpty()) {
+            $totalTemuDokter = 0;
+            $totalRekamMedis = 0;
+        } else {
+            // Hitung total temu dokter untuk hewan-hewan milik pemilik ini
+            $totalTemuDokter = TemuDokter::whereIn('idpet', $hewanIds)->count();
 
-    // Profil pemilik
-    public function profil()
-    {
-        $user = Auth::user();
-        $pemilik = $user->pemilik;
-        return view('pemilik.profil', compact('user','pemilik'));
-    }
+            // Ambil id reservasi yang terkait (dipakai oleh RekamMedis)
+            $reservasiIds = TemuDokter::whereIn('idpet', $hewanIds)
+                ->pluck('idreservasi_dokter');
 
-    // Daftar hewan milik pemilik
-    public function hewan()
-    {
-        $user = Auth::user();
-        $hewan = $user->pemilik->pets()->with('ras')->get();
-        return view('pemilik.hewan', compact('hewan'));
-    }
+            // Jika tidak ada reservasi -> 0, else hitung rekam medis yang memiliki idreservasi_dokter tersebut
+            if ($reservasiIds->isEmpty()) {
+                $totalRekamMedis = 0;
+            } else {
+                $totalRekamMedis = RekamMedis::whereIn('idreservasi_dokter', $reservasiIds)->count();
+            }
+        }
 
-    // Jadwal temu dokter milik hewan pemilik
-    public function jadwalTemuDokter()
-    {
-        $user = Auth::user();
-        $hewanIds = $user->pemilik->pets->pluck('idpet');
-        $jadwal = TemuDokter::whereIn('idpet', $hewanIds)->with('pet')->get();
-        return view('pemilik.jadwal-temu-dokter', compact('jadwal'));
-    }
-
-    // Rekam medis milik hewan pemilik
-    public function rekamMedis()
-    {
-        $user = Auth::user();
-        $hewanIds = $user->pemilik->pets->pluck('idpet');
-        $reservasiIds = TemuDokter::whereIn('idpet', $hewanIds)->pluck('idreservasi_dokter');
-        $rekamMedis = RekamMedis::whereIn('idreservasi_dokter', $reservasiIds)->with('detail')->get();
-        return view('pemilik.rekam-medis', compact('rekamMedis'));
-    }
-
-    // Detail rekam medis
-    public function detailRekamMedis($id)
-    {
-        $rekamMedis = RekamMedis::with('detail.kodeTindakanTerapi')->findOrFail($id);
-        return view('pemilik.detail-rekam-medis', compact('rekamMedis'));
+        return view('pemilik.dashboard-pemilik', compact(
+            'totalPet',
+            'totalTemuDokter',
+            'totalRekamMedis'
+        ));
     }
 }

@@ -20,7 +20,7 @@ class RasHewanController extends Controller
                 'ras_hewan.*',
                 'jenis_hewan.nama_jenis_hewan'
             )
-            ->orderBy('ras_hewan.idras_hewan', 'ASC')
+            ->orderBy('ras_hewan.idras_hewan', 'DESC')
             ->get();
             
         return view('admin.ras-hewan.index', compact('rasHewan'));
@@ -30,6 +30,7 @@ class RasHewanController extends Controller
     {
         // $jenisHewan = JenisHewan::all(); // ambil semua jenis hewan
 
+        // QUERY BUILDER
         $jenisHewan = DB::table('jenis_hewan')->get();
 
         return view('admin.ras-hewan.create', compact('jenisHewan'));
@@ -37,6 +38,7 @@ class RasHewanController extends Controller
 
     public function store(Request $request)
     {
+        // panggil method validateRas() yg ada di controller, krn private jd kita pakai $this
         $validated = $this->validateRas($request);
 
         // Simpan data baru
@@ -53,6 +55,7 @@ class RasHewanController extends Controller
         return redirect()->route('admin.ras-hewan.index')->with('success', 'Ras hewan berhasil ditambahkan.');
     }
 
+    // ketika klik edit, url akan mengirim id dan di controller ditampilkan datanya sesuai id
     public function edit($id)
     {
         // $rasHewan = RasHewan::findOrFail($id);
@@ -97,7 +100,7 @@ class RasHewanController extends Controller
     {
         return $request->validate([
             'nama_ras' => 'required|string|max:100',
-            'idjenis_hewan' => 'required|exists:jenis_hewan,idjenis_hewan',
+            'idjenis_hewan' => 'required|exists:jenis_hewan,idjenis_hewan', //wajib, dan exists id nya harus ditemukan di tabel jenis hewan, krn yg dikirim dr blade itu id bukan nama nya
         ]);
     }
 

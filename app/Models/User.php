@@ -11,7 +11,7 @@ use App\Models\RoleUser;
 class User extends Authenticatable
 {
     protected $table = 'user';
-    protected $primaryKey = 'iduser'; // penting!
+    protected $primaryKey = 'iduser'; 
     public $timestamps = false;
 
     protected $fillable = [
@@ -36,14 +36,20 @@ class User extends Authenticatable
         'role_user', // tabel pivot
         'iduser', // fk di abel pivot ke tabel user
         'idrole'
-    )->withPivot('status'); // fk di tabel pivot utk role
+    )->withPivot('idrole_user', 'status'); // fk di tabel pivot utk role
     }
 
     public function roleUser()
     {
-        // Satu user bisa punya banyak role (tp 1 yang aktif)
-        return $this->hasMany(RoleUser::class, 'iduser');
+        return $this->hasOne(RoleUser::class, 'iduser')->where('status', '1');
     }
+
+
+    // public function roleUser()
+    // {
+    //     // Satu user bisa punya banyak role (tp 1 yang aktif)
+    //     return $this->hasMany(RoleUser::class, 'iduser');
+    // }
 
     public function isDokter()
     {

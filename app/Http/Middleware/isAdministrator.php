@@ -14,23 +14,19 @@ class isAdministrator
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        // Jika user tidak terautentifikasi. redirect ke login
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Silahkan login terlebih dahulu.');
+            return redirect()->route('login');
         }
 
+        $userRole = (int) session('user_role');  // 🔹 Ambil dari session
 
-        // Ambil role dari session atau dari relasi user
-        $userRole = (int) session('user_role');
-
-        if ($userRole === 1) {
+        if ($userRole == 1) {
             return $next($request);
-
-        } else {
-            return abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
+
+        return abort(403, 'Akses ditolak.');
+    }
 
     }
-}

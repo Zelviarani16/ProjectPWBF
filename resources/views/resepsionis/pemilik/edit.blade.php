@@ -22,21 +22,27 @@
                 @csrf
                 @method('PUT')
 
-                {{-- Nama Pemilik --}}
-                <div class="form-group">
-                    <label for="nama_pemilik" class="form-label-custom">Nama Pemilik</label>
-                    <input
-                        type="text"
-                        name="nama_pemilik"
-                        id="nama_pemilik"
-                        class="form-control-custom @error('nama_pemilik') is-invalid @enderror"
-                        value="{{ old('nama_pemilik', $pemilik->nama_pemilik) }}"
-                        required
-                    >
-                    @error('nama_pemilik')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                </div>
+            {{-- User Terkait (Nama Pemilik) --}}
+            <div class="form-group">
+                <label for="iduser" class="form-label-custom">Nama Pemilik</label>
+                <select
+                    name="iduser"
+                    id="iduser"
+                    class="form-control-custom @error('iduser') is-invalid @enderror"
+                    required
+                >
+                    @foreach($users as $user)
+                        <option value="{{ $user->iduser }}"
+                            {{ old('iduser', $pemilik->iduser) == $user->iduser ? 'selected' : '' }}>
+                            {{ $user->nama }} ({{ $user->email }})
+                        </option>
+                    @endforeach
+                </select>
+                @error('iduser')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
 
                 {{-- Alamat --}}
                 <div class="form-group">

@@ -8,17 +8,24 @@ use App\Http\Controllers\Site\SiteController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 
+use App\Http\Controllers\Dokter\PasienPeriksaController;
 use App\Http\Controllers\Admin\UserRoleController;
 use App\Http\Controllers\Admin\RoleController; //sdh
-use App\Http\Controllers\Dokter\RekamMedisController;
 
+use App\Http\Controllers\Dokter\RekamMedisController;
 use App\Http\Controllers\Dokter\ProfilDokterController;
 use App\Http\Controllers\Admin\DashboardAdminController;
+
 use App\Http\Controllers\Perawat\ProfilPerawatController;
 
 use App\Http\Controllers\Dokter\DashboardDokterController;
 
 use App\Http\Controllers\Pemilik\DashboardPemilikController;
+use App\Http\Controllers\Pemilik\PetController as PemilikPetController;
+use App\Http\Controllers\Pemilik\ProfilPemilikController;
+use App\Http\Controllers\Pemilik\RekamMedisController as PemilikRekamMedisController;
+use App\Http\Controllers\Pemilik\TemuDokterController as PemilikTemuDokterController;
+
 use App\Http\Controllers\Admin\KategoriKlinisController; //sdh
 use App\Http\Controllers\Perawat\DashboardPerawatController; //--
 use App\Http\Controllers\Admin\KodeTindakanTerapiController; //sdh
@@ -29,24 +36,30 @@ use App\Http\Controllers\Resepsionis\PemilikController as ResPemilikController;
 use App\Http\Controllers\Admin\PemilikController as AdminPemilikController; //sdh
 use App\Http\Controllers\Resepsionis\TemuDokterController as ResTemuDokterController;
 
-// SITE (PUBLIC AREA)
+
+// SITE (PUBLIC AREA SEBELUM LOGIN)
 Route::get('/', [SiteController::class, 'home'])->name('landing');
 Route::get('layanan', [SiteController::class, 'layanan'])->name('layanan');
 Route::get('kontak', [SiteController::class, 'kontak'])->name('kontak');
 Route::get('struktur', [SiteController::class, 'struktur'])->name('struktur');
 
 // LOGOUT
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+// dihapus krn sdh dihandle oleh auth::routes
 
 // Auth routes ini bawaan laravel, dia menyimpan 
 //  /login -> get -> menampilkan form login
 //  /login -> post -> dia memproses login
 //  /logout -> post -> logout
 // /register -> get/post -> registrasi kalau tidak di disable
-//  dll utk reset password dan verfiikasi email kalau aktif.
+//  dll utk reset password dan verfikasi email kalau aktif.
 
 // Authentication routes (login/register)
 Auth::routes();
+
+// sama saja dengan
+// GET /login (menampilkan form login -> showLoginController)
+// POST /login (memproses login -> loginController@login)
+// POST /logout (logout -> loginController@logout)
 
 
 // ADMIN AREA
@@ -70,8 +83,6 @@ Route::prefix('admin')
             ->name('user-role.edit');
         Route::put('user-role/{iduser}/{idrole}', [UserRoleController::class, 'update'])
             ->name('user-role.update');
-
-
 
 
         Route::resource('jenis-hewan', App\Http\Controllers\Admin\JenisHewanController::class);
@@ -140,7 +151,7 @@ Route::prefix('perawat')
     }); 
 
 
-    // DOKTER AREA
+// DOKTER AREA
 Route::prefix('dokter')
     ->name('dokter.')
     ->middleware(['auth', 'isDokter'])
@@ -150,39 +161,61 @@ Route::prefix('dokter')
         Route::get('/dashboard', [DashboardDokterController::class, 'index'])
             ->name('dashboard');
 
-        // Data pasien
+        // Data Pasien
         Route::get('/pasien', [App\Http\Controllers\Dokter\PasienController::class, 'index'])
             ->name('pasien.index');
 
-        // ===================
-        // Rekam Medis Utama
-        // ===================
-        Route::prefix('rekam-medis')->group(function () {
+            
 
-        Route::get('/', [RekamMedisController::class, 'index'])
-            ->name('rekam-medis.index');
 
-        Route::get('/{id}/detail', [RekamMedisController::class, 'showDetail'])
-            ->name('rekam-medis.showDetail');
+        // =======================
+        // REKAM MEDIS UTAMA
+        // =======================
+        Route::prefix('rekam-medis')->name('rekam-medis.')->group(function () {
 
-    // =============================
-    // CRUD Detail Rekam Medis
-    // =============================
+            Route::get('/', [RekamMedisController::class, 'index'])
+                ->name('index');
 
-    Route::get('/{id}/detail/create', [RekamMedisController::class, 'createDetail'])
-        ->name('rekam-medis.detail.create');
+            Route::get('/{id}/detail', [RekamMedisController::class, 'showDetail'])
+                ->name('showDetail');
 
-    Route::post('/{id}/detail', [RekamMedisController::class, 'storeDetail'])
-        ->name('rekam-medis.detail.store');
+            // CRUD detail rekam medis
+            Route::get('/{id}/detail/create', [RekamMedisController::class, 'createDetail'])
+                ->name('detail.create');
 
-    Route::get('/detail/{detailId}/edit', [RekamMedisController::class, 'editDetail'])
-        ->name('rekam-medis.detail.edit');
+            Route::post('/{id}/detail', [RekamMedisController::class, 'storeDetail'])
+                ->name('detail.store');
 
-    Route::put('/detail/{detailId}', [RekamMedisController::class, 'updateDetail'])
-        ->name('rekam-medis.detail.update');
+            Route::get('/detail/{detailId}/edit', [RekamMedisController::class, 'editDetail'])
+                ->name('detail.edit');
 
-    Route::delete('/detail/{detailId}', [RekamMedisController::class, 'destroyDetail'])
-        ->name('rekam-medis.detail.destroy');
+            Route::put('/detail/{detailId}', [RekamMedisController::class, 'updateDetail'])
+                ->name('detail.update');
+
+            Route::delete('/detail/{detailId}', [RekamMedisController::class, 'destroyDetail'])
+                ->name('detail.destroy');
+
+            Route::get('/periksa/{idReservasi}', [RekamMedisController::class, 'periksa'])
+                ->name('periksa');
+
+        });
+
+        // =======================
+        // PASIEN PERIKSA
+        // =======================
+        Route::get('/pasien/pending', 
+            [PasienPeriksaController::class, 'indexPending']
+        )->name('pasien.pending');
+
+        Route::get('/pasien/{id}/periksa', [PasienPeriksaController::class, 'periksa'])
+            ->name('pasien.periksa'); // atau 'dokter.pasien.periksa' kalau mau tetap name sama
+
+        Route::post('/rekam-medis/{id}/detail/store', [PasienPeriksaController::class, 'storeDetail'])
+            ->name('rekam-medis.detail.store');
+
+        Route::post('/pasien/selesai/{id}', 
+            [PasienPeriksaController::class, 'selesaiPemeriksaan']
+        )->name('pasien.selesai');
 
         // Profil dokter
         Route::get('/profil', [ProfilDokterController::class, 'index'])->name('profil.index');
@@ -190,18 +223,59 @@ Route::prefix('dokter')
         Route::post('/profil/update', [ProfilDokterController::class, 'update'])->name('profil.update');
     });
 
-});
 
-// PEMILIK AREA
+    // PEMILIK AREA
 Route::prefix('pemilik')
     ->name('pemilik.')
     ->middleware(['auth', 'isPemilik'])
-    ->group(function() {
-        Route::get('/dashboard', [DashboardPemilikController::class, 'index'])->name('dashboard');
-        Route::get('/profil', [DashboardPemilikController::class, 'profil'])->name('profil');
-        Route::get('/hewan', [DashboardPemilikController::class, 'hewan'])->name('hewan');
-        Route::get('/jadwal-temu-dokter', [DashboardPemilikController::class, 'jadwalTemuDokter'])->name('jadwal-temu-dokter');
-        Route::get('/rekam-medis', [DashboardPemilikController::class, 'rekamMedis'])->name('rekam-medis');
-        Route::get('/rekam-medis/{id}', [DashboardPemilikController::class, 'detailRekamMedis'])->name('detail-rekam-medis');
-});
+    ->group(function () {
+
+        // ========================
+        // DASHBOARD
+        // ========================
+        Route::get('/dashboard', 
+            [DashboardPemilikController::class, 'index']
+        )->name('dashboard');
+
+        // ========================
+        // PET / HEWAN
+        // ========================
+        Route::get('/pet', 
+            [App\Http\Controllers\Pemilik\PetController::class, 'index']
+        )->name('pet.index');
+
+        // ========================
+        // PROFIL PEMILIK
+        // ========================
+        Route::get('/profil', 
+            [App\Http\Controllers\Pemilik\ProfilPemilikController::class, 'index']
+        )->name('profil.index');
+
+        Route::get('/profil/edit', 
+            [App\Http\Controllers\Pemilik\ProfilPemilikController::class, 'edit']
+        )->name('profil.edit');
+
+        Route::post('/profil/update', 
+            [App\Http\Controllers\Pemilik\ProfilPemilikController::class, 'update']
+        )->name('profil.update');
+
+        // ========================
+        // REKAM MEDIS
+        // ========================
+        Route::get('/rekam-medis', 
+            [App\Http\Controllers\Pemilik\RekamMedisController::class, 'rekamMedis']
+        )->name('rekam-medis.index');
+
+        Route::get('/rekam-medis/{id}', 
+            [App\Http\Controllers\Pemilik\RekamMedisController::class, 'detailRekamMedis']
+        )->name('rekam-medis.detail');
+
+        // ========================
+        // TEMU DOKTER
+        // ========================
+        Route::get('/temu-dokter', 
+            [App\Http\Controllers\Pemilik\TemuDokterController::class, 'temuDokter']
+        )->name('temu-dokter.index');
+
+    });
 

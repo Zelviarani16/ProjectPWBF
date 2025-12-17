@@ -1,0 +1,425 @@
+/* ======================================================
+   CUSTOM ADMIN PANEL - PINK PURPLE THEME (2025)
+   File: public/css/custom-admin.css
+   ====================================================== */
+
+:root {
+    --primary-color: #e91e63;
+    --primary-dark: #c2185b;
+    --secondary-color: #9c27b0;
+    --accent-pink: #ff4081;
+    --accent-purple: #7c4dff;
+    --success-color: #00bcd4;
+    --warning-color: #ffa726;
+    --danger-color: #ef5350;
+    --sidebar-bg: #1a1a2e;
+    --sidebar-hover: #16213e;
+}
+
+body {
+    background: #f5f6fa;
+    font-family: "Inter", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========== PAGE HEADER ========== */
+.app-content-header {
+    margin-bottom: 0.5rem;
+    margin-top: 1.1rem;
+
+}
+
+.app-content-header h3 {
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #1a1f2b;
+    background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.app-content-header p {
+    color: #6d7380 !important;
+    font-size: 1rem;
+}
+
+/* ========== CARDS ========== */
+.card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #e8e9f3;
+    box-shadow: 0 8px 25px rgba(233, 30, 99, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(233, 30, 99, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+    padding: 1rem 1rem;
+    border-bottom: 2px solid #fce4ec;
+}
+
+.card-header .card-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #1e2a45;
+}
+
+/* ========== BUTTONS ========== */
+.btn {
+    border-radius: 6px !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+/* Button sizes - Tambah lebih besar */
+.btn-sm {
+    padding: 0.4rem 0.85rem;
+    font-size: 0.875rem;
+}
+
+/* Primary - Button Tambah (UKURAN NORMAL) */
+.btn-primary {
+    background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%) !important;
+    border: none !important;
+    color: #fff !important;
+    box-shadow: 0 2px 6px rgba(233, 30, 99, 0.25);
+    padding: 0.5rem 1.2rem !important;
+    font-size: 0.9rem !important;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.35) !important;
+    background: linear-gradient(135deg, #d81b60 0%, #8e24aa 100%) !important;
+    border: none !important;
+}
+
+.btn-primary:focus,
+.btn-primary:active {
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.35) !important;
+    outline: none !important;
+}
+
+/* Warning - Kuning cerah seperti AdminLTE */
+.btn-warning {
+    background: #ffc107 !important;
+    border: 1px solid #ffc107 !important;
+    color: #212529 !important;
+    box-shadow: 0 2px 6px rgba(255, 193, 7, 0.25);
+}
+
+.btn-warning:hover {
+    background: #ffb300 !important;
+    border-color: #ffb300 !important;
+    color: #212529 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.35);
+}
+
+/* Danger - Merah cerah seperti AdminLTE */
+.btn-danger {
+    background: #dc3545 !important;
+    border: 1px solid #dc3545 !important;
+    color: white !important;
+    box-shadow: 0 2px 6px rgba(220, 53, 69, 0.25);
+}
+
+.btn-danger:hover {
+    background: #c82333 !important;
+    border-color: #bd2130 !important;
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.35);
+}
+
+/* Success - Hijau cerah seperti AdminLTE */
+.btn-success {
+    background: #28a745 !important;
+    border: 1px solid #28a745 !important;
+    color: white !important;
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.25);
+}
+
+.btn-success:hover {
+    background: #218838 !important;
+    border-color: #1e7e34 !important;
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.35);
+}
+
+/* Button Group - Kasih Gap untuk Button Aksi */
+.btn-group {
+    gap: 0.4rem;
+    display: flex;
+}
+
+.btn-group .btn {
+    margin: 0;
+}
+
+/* ========== TABLE (NO ANIMATION) ========== */
+.table thead th {
+    background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%);
+    border-bottom: 2px solid #e91e63 !important;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #c2185b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table tbody tr:hover {
+    background: #fce4ec !important;
+}
+
+.table tbody td {
+    padding: 1rem;
+    color: #4b5563;
+    font-size: 0.92rem;
+}
+
+/* ========== INFO BOXES (STAT CARDS - WITH ANIMATION) ========== */
+.info-box.bg-purple {
+    background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%) !important;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.info-box.bg-purple:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(233, 30, 99, 0.35);
+}
+
+.info-box.bg-purple .info-box-icon {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+.info-box.bg-success {
+    background: linear-gradient(135deg, #7c4dff 0%, #536dfe 100%) !important;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.info-box.bg-success:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(124, 77, 255, 0.35);
+}
+
+.info-box.bg-success .info-box-icon {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+/* Additional Info Box Color Variations */
+.info-box.bg-info {
+    background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%) !important;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.info-box.bg-info:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(0, 188, 212, 0.35);
+}
+
+.info-box.bg-info .info-box-icon {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+.info-box.bg-warning {
+    background: linear-gradient(135deg, #ffa726 0%, #ff9800 100%) !important;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.info-box.bg-warning:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 12px 35px rgba(255, 167, 38, 0.35);
+}
+
+.info-box.bg-warning .info-box-icon {
+    background: rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+.info-box {
+    border-radius: 16px;
+    padding: 1.6rem 1.4rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+}
+
+.info-box .info-box-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.2rem;
+}
+
+.info-box-text {
+    font-size: 0.82rem;
+    font-weight: 600;
+    opacity: 0.95;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.info-box-number {
+    font-size: 1.9rem;
+    font-weight: 800;
+}
+
+/* ========== SIDEBAR ========== */
+.app-sidebar {
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%) !important;
+    border-right: 1px solid #2d3748;
+}
+
+.nav-sidebar .nav-link {
+    color: #cbd5e1;
+    margin: 0.4rem 0.75rem;
+    padding: 0.8rem 1.1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.nav-sidebar .nav-link:hover {
+    background: rgba(233, 30, 99, 0.15);
+    color: #ff4081;
+    transform: translateX(4px);
+}
+
+.nav-sidebar .nav-link.active {
+    background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(233, 30, 99, 0.3);
+}
+
+/* ========== FORM ========== */
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e5e7eb;
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #e91e63;
+    box-shadow: 0 0 0 0.2rem rgba(233, 30, 99, 0.2);
+}
+
+/* ========== BADGES ========== */
+.badge {
+    border-radius: 8px;
+    padding: 0.45rem 0.8rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.badge-primary {
+    background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
+}
+
+.badge-success {
+    background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%);
+}
+
+.badge-warning {
+    background: linear-gradient(135deg, #ffa726 0%, #ff9800 100%);
+}
+
+.badge-danger {
+    background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
+}
+
+/* ========== NAVBAR (Optional Enhancement) ========== */
+.app-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e8e9f3;
+    box-shadow: 0 2px 10px rgba(233, 30, 99, 0.08);
+}
+
+/* ========== SMALL CARDS WITH GRADIENT ========== */
+.small-box {
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.small-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.small-box.bg-gradient-pink {
+    background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%) !important;
+}
+
+.small-box.bg-gradient-purple {
+    background: linear-gradient(135deg, #7c4dff 0%, #536dfe 100%) !important;
+}
+
+.small-box.bg-gradient-cyan {
+    background: linear-gradient(135deg, #00bcd4 0%, #0097a7 100%) !important;
+}
+
+.small-box.bg-gradient-orange {
+    background: linear-gradient(135deg, #ffa726 0%, #ff9800 100%) !important;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .info-box {
+        padding: 1.25rem;
+    }
+    .info-box-number {
+        font-size: 1.55rem;
+    }
+    .table {
+        font-size: 0.85rem;
+    }
+    
+    /* Disable hover animations on mobile */
+    .card:hover {
+        transform: none;
+    }
+    
+    .info-box.bg-purple:hover,
+    .info-box.bg-success:hover,
+    .info-box.bg-info:hover,
+    .info-box.bg-warning:hover {
+        transform: none;
+    }
+    
+    .nav-sidebar .nav-link:hover {
+        transform: none;
+    }
+}
+
+/* ========== SCROLLBAR - Default AdminLTE ========== */
+/* Scrollbar styling removed - using browser default */

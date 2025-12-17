@@ -1,0 +1,43 @@
+/* Header */
+.dashboard-header {
+    background: linear-gradient(135deg, #6f42c1, #4c5df0);
+    padding: 28px;
+    border-radius: 18px;
+    color: white;
+    margin-bottom: 25px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+}
+
+/* Card Modern */
+.dashboard-card {
+    border-radius: 18px !important;
+    transition: all 0.25s ease;
+    border: none;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0px 18px 30px rgba(0,0,0,0.12);
+}
+
+/* Icon */
+.dashboard-icon {
+    font-size: 45px;
+    margin-bottom: 10px;
+}
+
+/* Text */
+.dashboard-title {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.dashboard-value {
+    font-size: 34px;
+    font-weight: 800;
+}
+
+.dashboard-sub {
+    font-size: 13px;
+    color: #6c757d;
+}

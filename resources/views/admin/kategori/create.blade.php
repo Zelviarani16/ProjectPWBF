@@ -1,47 +1,90 @@
-@extends('layouts.admin')
+@extends('layouts.lte.main')
+
+@section('title', 'Tambah Kategori')
+@section('page-title', 'Tambah Kategori')
 
 @section('content')
-<div class="form-container-custom">
-    <div class="page-header-custom">
-        <h1 class="page-title-custom">Tambah Kategori</h1>
-        <p class="page-subtitle-custom">Buat kategori baru di sistem</p>
-    </div>
 
-    <div class="card-custom">
-        <div class="card-header-custom create-header">
-            <h5 class="card-title-custom"><i class="bi bi-plus-circle"></i> Form Tambah Kategori</h5>
-        </div>
-
-        <div class="card-body">
-            <form action="{{ route('admin.kategori.store') }}" method="POST">
-                @csrf
-
-                <div class="form-group">
-                    <label for="nama_kategori" class="form-label-custom">Nama Kategori</label>
-                    <input 
-                        type="text" 
-                        name="nama_kategori" 
-                        id="nama_kategori" 
-                        class="form-control-custom @error('nama_kategori') is-invalid @enderror"
-                        value="{{ old('nama_kategori') }}"
-                        required
-                    >
-                    @error('nama_kategori')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                    <small class="form-help-text">Masukkan nama kategori yang sesuai</small>
-                </div>
-
-                <div class="form-actions-custom">
-                    <button type="submit" class="btn-success-custom">
-                        <i class="bi bi-save"></i> Simpan Kategori
-                    </button>
-                    <a href="{{ route('admin.kategori.index') }}" class="btn-secondary-custom">
-                        <i class="bi bi-x-circle"></i> Batal
-                    </a>
-                </div>
-            </form>
+<!-- App Content Header -->
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Tambah Kategori</h3>
+                <p class="text-muted">Buat kategori baru di sistem</p>
+            </div>
         </div>
     </div>
 </div>
+<!-- /App Content Header -->
+
+<!-- App Content -->
+<div class="app-content">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <!-- Card Form -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="bi bi-plus-circle"></i> Form Tambah Kategori
+                        </h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <form action="{{ route('admin.kategori.store') }}" method="POST">
+                            @csrf
+
+                            <!-- Nama Kategori -->
+                            <div class="mb-3">
+                                <label for="nama_kategori" class="form-label">
+                                    Nama Kategori
+                                </label>
+
+                                <input 
+                                    type="text" 
+                                    name="nama_kategori" 
+                                    id="nama_kategori" 
+                                    class="form-control @error('nama_kategori') is-invalid @enderror"
+                                    value="{{ old('nama_kategori') }}"
+                                    required
+                                >
+
+                                @error('nama_kategori')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
+
+                                <small class="form-text text-muted">
+                                    Masukkan nama kategori yang sesuai
+                                </small>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-save"></i> Simpan Kategori
+                                </button>
+
+                                <a href="{{ route('admin.kategori.index') }}" class="btn btn-secondary">
+                                    <i class="bi bi-x-circle"></i> Batal
+                                </a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+                <!-- /Card -->
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /App Content -->
+
 @endsection

@@ -35,10 +35,6 @@ class SiteController extends Controller
     public function struktur() {
         return view('tampilan.struktur');
     }
-
-    public function login() {
-        return view('tampilan.login');
-    }
-
+// ada route mengarah ke tampilan.login tp sdh dihapus krn sudah dihandle oleh auth::routes
 
 }

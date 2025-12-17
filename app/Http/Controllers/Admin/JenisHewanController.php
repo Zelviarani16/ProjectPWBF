@@ -16,12 +16,22 @@ class JenisHewanController extends Controller
 {
     public function index()
     {
+        // ELOQUENT
         // Ambil semua data dari tabel jenis_hewan lewat model
         // $jenisHewan = JenisHewan::all();
 
-        $jenisHewan = DB::table('jenis_hewan')->get();
+        // QUERY BUILDER
+        // Get mengembalikan collection, yg di foreach di views blade
+        $jenisHewan = DB::table('jenis_hewan')
+        ->orderBy('jenis_hewan.idjenis_hewan', 'DESC')
+        ->get();
+
+        $jenisHewanTerbaru = DB::table('jenis_hewan')
+        ->orderBy('jenis_hewan.idjenis_hewan', 'DESC')
+        ->first();
+        
         // Kirim data ke view blade
-        return view('admin.jenis-hewan.index', compact('jenisHewan'));
+        return view('admin.jenis-hewan.index', compact('jenisHewan', 'jenisHewanTerbaru'));
     }
 
     public function create()
@@ -126,3 +136,32 @@ class JenisHewanController extends Controller
     }
 
 }
+
+
+
+// Collection $jenisHewan seperti array/list yang berisi beberapa object (row dari tabel jenis_hewan):
+
+// $jenisHewan = [
+//     0 => { id: 1, nama_jenis_hewan: "Kucing" },
+//     1 => { id: 2, nama_jenis_hewan: "Anjing" },
+//     2 => { id: 3, nama_jenis_hewan: "Kelinci" },
+// ];
+
+// 1️⃣ Foreach
+// @foreach($jenisHewan as $jenis)
+//     {{ $jenis->nama_jenis_hewan }}
+// @endforeach
+
+
+// Looping ini seperti:
+
+// Iteration 1: $jenis = { id: 1, nama_jenis_hewan: "Kucing" } → tampil "Kucing"
+// Iteration 2: $jenis = { id: 2, nama_jenis_hewan: "Anjing" } → tampil "Anjing"
+// Iteration 3: $jenis = { id: 3, nama_jenis_hewan: "Kelinci" } → tampil "Kelinci"
+
+
+// Hasil di Blade:
+
+// Kucing
+// Anjing
+// Kelinci

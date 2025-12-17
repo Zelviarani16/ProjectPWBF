@@ -18,7 +18,7 @@ class RasHewan extends Model
         'idjenis_hewan',
     ];
 
-    // Relasi ke JenisHewan
+    // Relasi ke JenisHewan (ras hewan yg dpt FK)
     public function jenisHewan()
     {
         return $this->belongsTo(JenisHewan::class, 'idjenis_hewan', 'idjenis_hewan');

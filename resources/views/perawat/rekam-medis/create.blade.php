@@ -1,126 +1,96 @@
-@extends('layouts.admin')
+@extends('layouts.lte.main')
 
-@section('title', 'Tambah Rekam Medis')
-@section('page-title', 'Tambah Rekam Medis')
+@section('title', 'Tambah Anamnesa')
+@section('page-title', 'Tambah Anamnesa')
 
 @section('content')
-<div class="form-container-custom">
-    <div class="page-header-custom">
-        <h1 class="page-title-custom">Tambah Rekam Medis</h1>
-        <p class="page-subtitle-custom">Buat rekam medis baru untuk pasien hewan</p>
-    </div>
 
-    {{-- ✅ Alert Error --}}
-    @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="bi bi-exclamation-triangle"></i> {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    <div class="card-custom">
-        <div class="card-header-custom create-header">
-            <h5 class="card-title-custom">
-                <i class="bi bi-plus-circle"></i> Form Tambah Rekam Medis
-            </h5>
-        </div>
-
-        <div class="card-body">
-            <form action="{{ route('perawat.rekam-medis.store') }}" method="POST">
-                @csrf
-                
-                <div class="form-group">
-                    <label for="idreservasi_dokter" class="form-label-custom">
-                        <i class="bi bi-calendar-check"></i> Reservasi Dokter
-                    </label>
-                    <select 
-                        name="idreservasi_dokter" 
-                        id="idreservasi_dokter" 
-                        class="form-select-custom @error('idreservasi_dokter') is-invalid @enderror"
-                        required
-                    >
-                        <option value="">-- Pilih Reservasi --</option>
-                        @forelse($reservasi as $res)
-                            <option value="{{ $res->idreservasi_dokter }}" 
-                                {{ old('idreservasi_dokter') == $res->idreservasi_dokter ? 'selected' : '' }}>
-                                ID: {{ $res->idreservasi_dokter }} - 
-                                {{ $res->pet->nama ?? 'Pet tidak ditemukan' }} 
-                                ({{ $res->waktu_daftar ? \Carbon\Carbon::parse($res->waktu_daftar)->format('d/m/Y H:i') : '-' }})
-                            </option>
-                        @empty
-                            <option value="" disabled>Tidak ada reservasi yang tersedia</option>
-                        @endforelse
-                    </select>
-                    @error('idreservasi_dokter')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                    <small class="form-help-text">Pilih reservasi dokter yang sudah selesai pemeriksaan (Status: S)</small>
-                </div>
-
-                <div class="form-group">
-                    <label for="anamnesa" class="form-label-custom">
-                        <i class="bi bi-chat-left-text"></i> Anamnesa
-                    </label>
-                    <textarea 
-                        name="anamnesa" 
-                        id="anamnesa" 
-                        rows="4"
-                        class="form-control-custom @error('anamnesa') is-invalid @enderror"
-                        placeholder="Keluhan yang dirasakan hewan, riwayat penyakit sebelumnya..."
-                        required
-                    >{{ old('anamnesa') }}</textarea>
-                    @error('anamnesa')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                    <small class="form-help-text">Catatan keluhan dan riwayat kesehatan pasien (max 1000 karakter)</small>
-                </div>
-
-                <div class="form-group">
-                    <label for="temuan_klinis" class="form-label-custom">
-                        <i class="bi bi-clipboard-pulse"></i> Temuan Klinis 
-                    </label>
-                    <textarea 
-                        name="temuan_klinis" 
-                        id="temuan_klinis" 
-                        rows="4"
-                        class="form-control-custom @error('temuan_klinis') is-invalid @enderror"
-                        placeholder="Hasil pemeriksaan fisik, vital signs, dll..."
-                        required
-                    >{{ old('temuan_klinis') }}</textarea>
-                    @error('temuan_klinis')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                    <small class="form-help-text">Hasil observasi dan pemeriksaan klinis (max 1000 karakter)</small>
-                </div>
-
-                <div class="form-group">
-                    <label for="diagnosa" class="form-label-custom">
-                        <i class="bi bi-file-medical"></i> Diagnosa
-                    </label>
-                    <textarea 
-                        name="diagnosa" 
-                        id="diagnosa" 
-                        rows="3"
-                        class="form-control-custom @error('diagnosa') is-invalid @enderror"
-                        placeholder="Diagnosis penyakit atau kondisi pasien..."
-                        required
-                    >{{ old('diagnosa') }}</textarea>
-                    @error('diagnosa')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                    <small class="form-help-text">Kesimpulan diagnosis dari pemeriksaan (max 1000 karakter)</small>
-                </div>
-
-                <div class="form-actions-custom">
-                    <button type="submit" class="btn-success-custom">
-                        <i class="bi bi-save"></i> Simpan Rekam Medis
-                    </button>
-                    <a href="{{ route('perawat.rekam-medis.index') }}" class="btn-secondary-custom">
-                        <i class="bi bi-x-circle"></i> Batal
-                    </a>
-                </div>
-            </form>
+<!-- App Content Header -->
+<div class="app-content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <h3 class="mb-0">Tambah Anamnesa</h3>
+                <p class="text-muted">Form pengisian anamnesa pasien</p>
+            </div>
         </div>
     </div>
 </div>
+<!-- /App Content Header -->
+
+<!-- App Content -->
+<div class="app-content">
+    <div class="container-fluid">
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <!-- Card Form -->
+                <div class="card">
+
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="bi bi-file-medical"></i> Form Tambah Anamnesa
+                        </h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <form action="{{ route('perawat.rekam-medis.store') }}" method="POST">
+                            @csrf
+
+                            <div class="mb-3">
+                                <label class="form-label">Reservasi Dokter</label>
+                                <select name="idreservasi_dokter" class="form-select" required>
+                                    <option value="">-- Pilih Reservasi --</option>
+                                    @forelse($reservasi as $res)
+                                        <option value="{{ $res->idreservasi_dokter }}">
+                                            {{ $res->nama_hewan ?? '-' }} — Dokter: {{ $res->nama_dokter ?? '-' }}
+                                        </option>
+                                    @empty
+                                        <option disabled>Tidak ada reservasi tersedia</option>
+                                    @endforelse
+                                </select>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Anamnesa</label>
+                                <textarea
+                                    name="anamnesa"
+                                    class="form-control"
+                                    rows="4"
+                                    placeholder="Keluhan / riwayat penyakit..."
+                                    required
+                                >{{ old('anamnesa') }}</textarea>
+                            </div>
+
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="submit" class="btn btn-success">
+                                    Simpan
+                                </button>
+
+                                <a href="{{ route('perawat.rekam-medis.index') }}" class="btn btn-secondary">
+                                    Batal
+                                </a>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+                <!-- /Card -->
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /App Content -->
+
 @endsection

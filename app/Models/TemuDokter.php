@@ -18,6 +18,12 @@ class TemuDokter extends Model
         'idrole_user'
     ];
 
+    public function dokter()
+    {
+        return $this->belongsTo(User::class, 'idrole_user', 'iduser');
+    }
+
+
     public function pet()
     {
         return $this->belongsTo(Pet::class, 'idpet');

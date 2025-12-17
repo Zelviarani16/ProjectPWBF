@@ -26,7 +26,7 @@ class PetController extends Controller
             ->orderBy('p.idpet', 'ASC')
             ->get();
 
-        return view('admin.pet.index', compact('pets'));
+        return view('resepsionis.pet.index', compact('pets'));
     }
 
     public function create()
@@ -38,7 +38,7 @@ class PetController extends Controller
             ->select('pm.*', 'u.nama as nama_user')
             ->get();
 
-        return view('admin.pet.create', compact('pemilik', 'rasHewan'));
+        return view('resepsionis.pet.create', compact('pemilik', 'rasHewan'));
     }
 
     public function store(Request $request)
@@ -54,7 +54,7 @@ class PetController extends Controller
             'idras_hewan'   => $validated['idras_hewan'],
         ]);
 
-        return redirect()->route('admin.pet.index')
+        return redirect()->route('resepsionis.pet.index')
                          ->with('success', 'Data pet berhasil ditambahkan.');
     }
 
@@ -70,7 +70,7 @@ class PetController extends Controller
 
         $rasHewan = RasHewan::all();
 
-        return view('admin.pet.edit', compact('pet', 'pemilik', 'rasHewan'));
+        return view('resepsionis.pet.edit', compact('pet', 'pemilik', 'rasHewan'));
     }
 
     public function update(Request $request, $id)
@@ -88,7 +88,7 @@ class PetController extends Controller
             'idras_hewan'   => $validated['idras_hewan'],
         ]);
 
-        return redirect()->route('admin.pet.index')
+        return redirect()->route('resepsionis.pet.index')
                          ->with('success', 'Data pet berhasil diperbarui.');
     }
 
@@ -97,7 +97,7 @@ class PetController extends Controller
         $pet = Pet::findOrFail($id);
         $pet->delete();
 
-        return redirect()->route('admin.pet.index')
+        return redirect()->route('resepsionis.pet.index')
                          ->with('success', 'Data pet berhasil dihapus.');
     }
 

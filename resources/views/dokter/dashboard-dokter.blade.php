@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.lte.main')
 @section('title', 'Dashboard Dokter')
 
 @section('content')

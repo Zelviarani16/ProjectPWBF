@@ -9,10 +9,7 @@ class JenisHewan extends Model
 {
     use HasFactory;
 
-    // Nama tabel
-    protected $table = 'jenis_hewan';
-    
-    // Primary key
+    protected $table = 'jenis_hewan';    
     protected $primaryKey = 'idjenis_hewan';
     
     // Field yang boleh diisi mass assignment
